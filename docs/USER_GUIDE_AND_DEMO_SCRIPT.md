@@ -13,10 +13,10 @@ Welcome to **Drop-Off Oasis**, an AI-powered concierge built with Google's **Age
 ## 🎨 System & Component Architecture
 
 ### 1. System Architecture
-![System Architecture Diagram](architecture_diagram.svg)
+![System Architecture Diagram](architecture_diagram.png)
 
 ### 2. Component Blueprint
-![Component Blueprint Diagram](component_diagram.svg)
+![Component Blueprint Diagram](component_diagram.png)
 
 ---
 

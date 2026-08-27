@@ -41,7 +41,7 @@ Parents dropping off their children for 45-to-60-minute extracurricular classes 
 
 ## 🏗️ System Architecture
 
-![Architecture Diagram](docs/architecture_diagram.svg)
+![Architecture Diagram](docs/architecture_diagram.png)
 
 ### Data Flow Overview:
 1. **User Browser**: Sends chat prompts over HTTP to the FastAPI Proxy (`frontend/main.py`).
@@ -56,7 +56,7 @@ Parents dropping off their children for 45-to-60-minute extracurricular classes 
 
 ## 🧩 Component Blueprint
 
-![Component Diagram](docs/component_diagram.svg)
+![Component Diagram](docs/component_diagram.png)
 
 ### Codebase File Structure:
 

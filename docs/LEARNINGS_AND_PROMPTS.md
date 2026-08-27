@@ -164,9 +164,29 @@ Below is the complete sequence of prompts provided during the design, building, 
   Error: Deployment failed: {'code': 3, 'message': 'The Reasoning Engine failed to be updated.'}
   ```
 - **Root Cause**: 
-  Adding transient dev dependencies (such as `google-cloud-texttospeech`) directly to `pyproject.toml` caused package resolution conflicts during Agent Engine's remote Cloud Build environment.
+  Adding transient dev dependencies directly to `pyproject.toml` caused package resolution conflicts during Agent Engine's remote Cloud Build environment.
 - **Solution**:
-  Cleaned runtime dependencies in `pyproject.toml` to stick to essential ADK packages, isolated audio synthesis logic cleanly, and re-triggered `agents-cli deploy` (succeeded with exit code 0).
+  Cleaned runtime dependencies in `pyproject.toml` to stick to essential ADK packages, isolated audio synthesis logic cleanly, and re-triggered `agents-cli deploy`.
+
+---
+
+### Error 8: Audio Player Spoke Generic Welcome Message Instead of Full Lyrics
+- **Symptom**:
+  The audio player streamed music, but the spoken voiceover was a generic welcome message instead of the full native language lyric poem text.
+- **Root Cause**:
+  TTS synthesis input was using default template strings instead of the translated native script poem.
+- **Solution**:
+  Refactored TTS synthesis input in `generate_walk_soundtrack` (`app/agent.py`) to synthesize the full native language script poem texts (Kannada `"ತಂಪಾದ ಸಂಜೆಯಲಿ..."`, Hindi `"ठंडी हवा में..."`, Spanish `"En la fresca brisa..."`) and mix with lo-fi/ambient audio tracks using FFmpeg before uploading to GCS bucket (`gs://drop-off-oasis-media-688258816137/audio/`).
+
+---
+
+### Error 9: GitHub Markdown Viewer Not Rendering SVG Diagrams
+- **Symptom**:
+  GitHub repository preview rendered broken icon placeholders for `docs/architecture_diagram.svg` and `docs/component_diagram.svg`.
+- **Root Cause**:
+  GitHub markdown renderer sanitizes external SVG files and inline styles, causing complex SVG diagrams to fail rendering in browser views.
+- **Solution**:
+  Converted both SVG diagrams to high-resolution PNG assets (`docs/architecture_diagram.png` and `docs/component_diagram.png`) using headless Chrome screenshot rendering, updated all markdown references in `README.md` and `docs/USER_GUIDE_AND_DEMO_SCRIPT.md`, and committed PNG assets to git.
 
 ---
 
@@ -176,4 +196,5 @@ Below is the complete sequence of prompts provided during the design, building, 
 2. **Container Host URL Rewriting**: Always inspect container metadata returned by cloud runtimes and rewrite internal IPs (`0.0.0.0`) to public proxy endpoints.
 3. **Session State Memory in RAG**: When building retrieval tools, maintain state tracking (e.g., `_SEEN_SPOTS` or Vertex AI Memory Bank) to prevent repetitive results.
 4. **Rich Visual Chat UIs**: Combine plain text replies with custom markdown parsers for images, inline HTML5 audio controls, and native A2UI cards to maximize user engagement.
-5. **Clean Dependencies for Cloud Runtimes**: Keep `pyproject.toml` dependencies minimal to avoid Cloud Build container resolution failures during Agent Engine deployment.
+5. **PNG Diagrams for GitHub Compatibility**: Always provide rasterized PNG fallbacks alongside SVG diagrams so repository pages render cleanly on GitHub and mobile browsers.
+
