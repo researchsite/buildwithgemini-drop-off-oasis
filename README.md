@@ -19,6 +19,12 @@ Parents dropping off their children for 45-to-60-minute extracurricular classes 
 
 ---
 
+## 🎬 Live Application Walkthrough
+
+![Drop-Off Oasis Live Application Walkthrough](docs/demo_walkthrough.gif)
+
+---
+
 ## 🌟 Key Features
 
 1. **🧠 RAG Session Memory (Zero Duplicate Recommendations)**:

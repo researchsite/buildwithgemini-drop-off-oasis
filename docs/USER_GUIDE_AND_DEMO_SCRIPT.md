@@ -10,6 +10,12 @@ Welcome to **Drop-Off Oasis**, an AI-powered concierge built with Google's **Age
 
 ---
 
+## 🎬 Live Application Walkthrough Video & GIF
+
+![Drop-Off Oasis Live Application Walkthrough](demo_walkthrough.gif)
+
+---
+
 ## 🎨 System & Component Architecture
 
 ### 1. System Architecture
