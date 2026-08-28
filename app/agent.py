@@ -247,7 +247,7 @@ def generate_walk_soundtrack(
             "> *ಹಸನ್ಮುಖಿಯಿಂದ ಪ್ರಕೃತಿಯ ಆನಂದಿಸಿ!\"*\n\n"
             "*(Translation: 'A joyful day amidst the forest, walk dancing to the birdsong! Fresh energy at every step, enjoy nature with a glowing smile!')*"
         )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/lyria_song_kannada_happy.mp3"
+        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/gemini_lyria_song_kannada.mp3"
     elif "hindi" in lang_key or "hi" in lang_key:
         matched_lang = "Hindi"
         lyric_display = (
@@ -258,7 +258,7 @@ def generate_walk_soundtrack(
             "> *प्रकृति संग मनाएं खुशियों का उत्सव!\"*\n\n"
             "*(Translation: 'Every leaf sways in joyful sunshine, this heart sings with a smile! Fresh enthusiasm and energy at every step, celebrate joy with nature!')*"
         )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/lyria_song_hindi_happy.mp3"
+        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/gemini_lyria_song_hindi.mp3"
     elif "spanish" in lang_key or "es" in lang_key:
         matched_lang = "Spanish"
         lyric_display = (
@@ -268,7 +268,7 @@ def generate_walk_soundtrack(
             "> *¡Camina sonriendo, siente el ritmo de la naturaleza y disfruta del sol!\"*\n\n"
             "*(Translation: 'A radiant day full of joy! Among flowers and breeze we sing with love. Walk smiling, feel nature's rhythm, and enjoy the sun!')*"
         )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/lyria_song_spanish_happy.mp3"
+        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/gemini_lyria_song_spanish.mp3"
     else:
         matched_lang = "English"
         lyric_display = (
@@ -278,7 +278,7 @@ def generate_walk_soundtrack(
             "> *Smile on your walk, feel the energetic breeze,*\n"
             "> *and enjoy a joyful break among the trees!\"*"
         )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/lyria_song_english_acoustic.mp3"
+        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/gemini_lyria_song_english.mp3"
 
     return {
         "track_title": f"Custom {matched_lang.title()} Song (Google DeepMind Lyria Model)",
