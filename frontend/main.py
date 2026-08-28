@@ -147,21 +147,21 @@ async def chat(req: Request):
 
     if not parts:
         msg_lower = message.lower()
-        if "kannada" in msg_lower or "song" in msg_lower or "lo-fi" in msg_lower or "soundtrack" in msg_lower or "hindi" in msg_lower:
+        if any(k in msg_lower for k in ["song", "lyric", "lo-fi", "soundtrack", "sing", "happy"]):
             from app.agent import generate_walk_soundtrack
-            lang = "Kannada" if "kannada" in msg_lower else ("Hindi" if "hindi" in msg_lower else "English")
-            theme = "lo-fi beats" if "lo-fi" in msg_lower else "ambient meditation"
-            res = generate_walk_soundtrack(vibe=theme, theme=theme, language=lang)
+            lang = "Kannada" if "kannada" in msg_lower else ("Hindi" if "hindi" in msg_lower else ("Spanish" if "spanish" in msg_lower else ("Japanese" if "japanese" in msg_lower else "English")))
+            vibe = "happy" if any(k in msg_lower for k in ["happy", "upbeat", "joyful", "sing"]) else "ambient"
+            res = generate_walk_soundtrack(vibe=vibe, theme=vibe, language=lang)
             parts = [{"kind": "text", "text": res["message"]}]
-        elif "walk" in msg_lower or "spot" in msg_lower or "nature" in msg_lower:
+        elif any(k in msg_lower for k in ["walk", "spot", "nature", "garden", "bamboo", "coffee"]):
             from app.agent import get_nearby_scenic_walks
             res = get_nearby_scenic_walks()
             parts = [{"kind": "text", "text": res["message"]}]
-        elif "time" in msg_lower or "budget" in msg_lower or "schedule" in msg_lower:
+        elif any(k in msg_lower for k in ["time", "budget", "schedule", "pickup"]):
             from app.agent import calculate_time_budget
-            res = calculate_time_budget(45, "Main St")
+            res = calculate_time_budget("04:00 PM", 45, 30, 5)
             parts = [{"kind": "text", "text": res["message"]}]
-        elif "review" in msg_lower or "photo" in msg_lower:
+        elif any(k in msg_lower for k in ["review", "photo"]):
             parts = [{"kind": "text", "text": "📸 **Trip Photo Received!**\nThank you for sharing your walk photo! 🌟\n\nYour 5-star review for **Oakridge Shaded Forest Loop** has been saved to the community parent guide! 🌿"}]
         else:
             parts = [{"kind": "text", "text": "🌿 Welcome to Drop-Off Oasis! Click any quick chip below to demo fresh nature walks, custom language songs, or schedules!"}]

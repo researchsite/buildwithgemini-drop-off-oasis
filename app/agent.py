@@ -234,58 +234,114 @@ def generate_walk_soundtrack(
         Details of the dynamically synthesized 30-second audio track and streaming GCS URL.
     """
     lang_key = language.lower().strip()
+    vibe_key = (vibe + " " + theme).lower().strip()
+    is_happy = any(k in vibe_key for k in ["happy", "upbeat", "joyful", "singing", "cheerful", "sunny", "fiesta", "festive"])
 
     if "kannada" in lang_key or "kn" in lang_key:
         matched_lang = "Kannada"
-        lyric_display = (
-            "🎵 **ಕನ್ನಡ ಗೀತೆ ಸಾಲುಗಳು:**\n"
-            "> *\"ತಂಪಾದ ಸಂಜೆಯಲಿ ಲೋ-ಫೈ ನಾದ,*\n"
-            "> *ಪ್ರತಿಯೊಂದು ಹೆಜ್ಜೆಯಲ್ಲೂ ನೆಮ್ಮದಿಯ ಸ್ವಾದ।*\n"
-            "> *ನಿಸರ್ಗದ ಮಡಿಲಲ್ಲಿ ವಿಶ್ರಾಂತಿ ಪಡೆಯಿರಿ,*\n"
-            "> *ಮನಸ್ಸಿನ ಕಾಳಜಿಯ ಮರೆತು ನಗುತ್ತಾ ಸಾಗಿರಿ...\"*\n\n"
-            "*(Translation: 'In the cool evening breeze with soft lo-fi rhythms, every step carries the flavor of peace. Relax in nature's lap and walk with a smile...')*"
-        )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_kannada_a5982cbc.mp3"
+        if is_happy:
+            lyric_display = (
+                "🌞 🎵 **ಸಂತೋಷದ ಕನ್ನಡ ಗೀತೆ (Happy Singing Mode):**\n"
+                "> *\"ಸಂತೋಷದ ದಿನವಿದು ಕಾಡಿನ ನಡುವೆ,*\n"
+                "> *ಹಕ್ಕಿಗಳ ಹಾಡಿಗೆ ನಲಿಯುತ ಸಾಗಿ!*\n"
+                "> *ಪ್ರತಿ ಹೆಜ್ಜೆಯಲ್ಲೂ ಹೊಸ ಹುರುಪು,*\n"
+                "> *ಹಸನ್ಮುಖಿಯಿಂದ ಪ್ರಕೃತಿಯ ಆನಂದಿಸಿ!\"*\n\n"
+                "*(Translation: 'A joyful day amidst the forest, walk dancing to the birdsong! Fresh energy at every step, enjoy nature with a glowing smile!')*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_kannada_happy.mp3"
+        else:
+            lyric_display = (
+                "🎵 **ಕನ್ನಡ ಗೀತೆ ಸಾಲುಗಳು:**\n"
+                "> *\"ತಂಪಾದ ಸಂಜೆಯಲಿ ಲೋ-ಫೈ ನಾದ,*\n"
+                "> *ಪ್ರತಿಯೊಂದು ಹೆಜ್ಜೆಯಲ್ಲೂ ನೆಮ್ಮದಿಯ ಸ್ವಾದ।*\n"
+                "> *ನಿಸರ್ಗದ ಮಡಿಲಲ್ಲಿ ವಿಶ್ರಾಂತಿ ಪಡೆಯಿರಿ,*\n"
+                "> *ಮನಸ್ಸಿನ ಕಾಳಜಿಯ ಮರೆತು ನಗುತ್ತಾ ಸಾಗಿರಿ...\"*\n\n"
+                "*(Translation: 'In the cool evening breeze with soft lo-fi rhythms, every step carries the flavor of peace. Relax in nature's lap and walk with a smile...')*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_kannada_a5982cbc.mp3"
     elif "hindi" in lang_key or "hi" in lang_key:
         matched_lang = "Hindi"
-        lyric_display = (
-            "🎵 **हिंदी गीत पंक्तियाँ:**\n"
-            "> *\"ठंडी हवा में लो-फाई संगीत का जादू,*\n"
-            "> *हर कदम पर शांति और सुकून।*\n"
-            "> *प्रकृति की गोद में आराम करें,*\n"
-            "> *मुस्कुराते हुए आगे बढ़ें...\"*\n\n"
-            "*(Translation: 'The magic of lo-fi music in the cool breeze, peace and calm at every step. Relax in the lap of nature, move forward with a smile...')*"
-        )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_hindi_f1ffe254.mp3"
+        if is_happy:
+            lyric_display = (
+                "🎈 🎵 **आनंदमय हिंदी गीत (Happy Singing Mode):**\n"
+                "> *\"खुशियों भरी धूप में झूमे हर पत्ता,*\n"
+                "> *मुस्कुराते हुए गाए ये दिल!*\n"
+                "> *हर कदम पर नई उमंग और ताजगी,*\n"
+                "> *प्रकृति संग मनाएं खुशियों का उत्सव!\"*\n\n"
+                "*(Translation: 'Every leaf sways in joyful sunshine, this heart sings with a smile! Fresh enthusiasm and energy at every step, celebrate joy with nature!')*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_hindi_happy.mp3"
+        else:
+            lyric_display = (
+                "🎵 **हिंदी गीत पंक्तियाँ:**\n"
+                "> *\"ठंडी हवा में लो-फाई संगीत का जादू,*\n"
+                "> *हर कदम पर शांति और सुकून।*\n"
+                "> *प्रकृति की गोद में आराम करें,*\n"
+                "> *मुस्कुराते हुए आगे बढ़ें...\"*\n\n"
+                "*(Translation: 'The magic of lo-fi music in the cool breeze, peace and calm at every step. Relax in the lap of nature, move forward with a smile...')*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_hindi_f1ffe254.mp3"
     elif "spanish" in lang_key or "es" in lang_key:
         matched_lang = "Spanish"
+        if is_happy:
+            lyric_display = (
+                "🌺 🎵 **Canción Alegre en Español (Happy Fiesta Mode):**\n"
+                "> *\"¡Un día radiante y lleno de alegría!*\n"
+                "> *Entre flores y brisa cantamos con amor.*\n"
+                "> *¡Camina sonriendo, siente el ritmo de la naturaleza y disfruta del sol!\"*\n\n"
+                "*(Translation: 'A radiant day full of joy! Among flowers and breeze we sing with love. Walk smiling, feel nature's rhythm, and enjoy the sun!')*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_spanish_happy.mp3"
+        else:
+            lyric_display = (
+                "🎵 **Letra en Español:**\n"
+                "> *\"En la fresca brisa vespertina con suaves ritmos lo-fi,*\n"
+                "> *cada paso trae el dulce sabor de la paz.*\n"
+                "> *Relájate en el regazo de la naturaleza,*\n"
+                "> *y camina con una sonrisa...\"*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_spanish_05b8722d.mp3"
+    elif "japanese" in lang_key or "ja" in lang_key:
+        matched_lang = "Japanese"
         lyric_display = (
-            "🎵 **Letra en Español:**\n"
-            "> *\"En la fresca brisa vespertina con suaves ritmos lo-fi,*\n"
-            "> *cada paso trae el dulce sabor de la paz.*\n"
-            "> *Relájate en el regazo de la naturaleza,*\n"
-            "> *y camina con una sonrisa...\"*"
+            "🌸 🎵 **明るい日本語の歌 (Happy Zen Mode):**\n"
+            "> *\"明るい陽光と緑の風！*\n"
+            "> *鳥たちの歌に合わせて歩きましょう。*\n"
+            "> *自然の笑顔と喜びに満ちた素晴らしい時間を！\"*\n\n"
+            "*(Translation: 'Bright sunshine and green breeze! Let us walk singing along with the birds. Enjoy a wonderful time full of nature's smiles and joy!')*"
         )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_spanish_05b8722d.mp3"
+        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_japanese_happy.mp3"
     else:
         matched_lang = "English"
-        lyric_display = (
-            "🎵 **English Lyrics:**\n"
-            "> *\"In the cool evening breeze with soft lo-fi rhythms,*\n"
-            "> *every step carries the sweet taste of peace.*\n"
-            "> *Relax in the lap of nature,*\n"
-            "> *and walk forward with a smile...\"*"
-        )
-        audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/whispering_pines_nature_suite.mp3"
+        if is_happy:
+            lyric_display = (
+                "☀️ 🎵 **Happy Upbeat Song (Happy Singing Mode):**\n"
+                "> *\"Step into the sunshine with a happy song,*\n"
+                "> *every single leaf is singing along!*\n"
+                "> *Smile on your walk, feel the energetic breeze,*\n"
+                "> *and enjoy a joyful micro-break among the trees!\"*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/song_english_happy.mp3"
+        else:
+            lyric_display = (
+                "🎵 **English Lyrics:**\n"
+                "> *\"In the cool evening breeze with soft lo-fi rhythms,*\n"
+                "> *every step carries the sweet taste of peace.*\n"
+                "> *Relax in the lap of nature,*\n"
+                "> *and walk forward with a smile...\"*"
+            )
+            audio_url = "https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/whispering_pines_nature_suite.mp3"
 
+    mode_label = "Happy Singing Tone" if is_happy else "Lo-Fi Ambient Tone"
     return {
-        "track_title": f"Custom {matched_lang.title()} {theme.title()} Song",
+        "track_title": f"Custom {matched_lang.title()} {mode_label} Song",
         "language_spoken": matched_lang.title(),
         "theme_selected": theme,
+        "vocal_tone": mode_label,
         "duration_sec": 30,
         "lyrics_snippet": lyric_display,
         "audio_stream_url": audio_url,
-        "message": f"🎧 Synthesized dynamic 30-second studio song in {matched_lang.title()} ({theme})!\n\n{lyric_display}\n\nListen here: {audio_url}",
+        "message": f"🎧 Synthesized dynamic 30-second studio song in {matched_lang.title()} ({mode_label})!\n\n{lyric_display}\n\nListen here: {audio_url}",
     }
 
 
