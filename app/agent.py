@@ -356,36 +356,96 @@ def generate_walk_soundtrack(
     tts_vocals_wav = f"/tmp/tts_vocals_{unique_id}.wav"
     mixed_output_mp3 = f"/tmp/soundtrack_{unique_id}.mp3"
 
-    lyria_prompt = f"calm ambient nature walk, {vibe}, morning birdsong, soft piano, no lyrics, 30 seconds"
+    fp_lower = (full_prompt + " " + vibe).lower()
+    lyria_prompt = (
+        f"{full_prompt}, {vibe}, {theme}, "
+        f"instrumental only, no lyrics, 30 seconds, nature walk music, "
+        f"{'upbeat energetic' if 'happy' in fp_lower else 'calm meditative'} mood"
+    )
 
     # Try Vertex AI Lyria 2 music generation or synthesize rich ambient background track via FFmpeg
     try:
         gemini_client = GenAIClient(vertexai=True, project=GCP_PROJECT, location="us-central1")
-        # Lyria 2 background music stem generation attempt
         res = gemini_client.models.generate_content(
             model="lyria-002",
             contents=lyria_prompt,
         )
-        if res and hasattr(res, "audio_content"):
-            with open(lyria_bg_wav, "wb") as f:
-                f.write(res.audio_content)
+        if res and res.candidates:
+            for candidate in res.candidates:
+                for part in candidate.content.parts:
+                    if hasattr(part, "inline_data") and part.inline_data and part.inline_data.data:
+                        with open(lyria_bg_wav, "wb") as f:
+                            f.write(part.inline_data.data)
+                        break
     except Exception as ex:
-        print(f"Lyria 2 fallback notice: {ex}")
+        print(f"Lyria 2 notice: {ex}")
+
+    # REST fallback for Lyria 2 if SDK call failed or lyria_bg_wav not created yet
+    if not os.path.exists(lyria_bg_wav):
+        try:
+            import base64
+            import google.auth
+            import google.auth.transport.requests
+
+            credentials, project = google.auth.default()
+            auth_req = google.auth.transport.requests.Request()
+            credentials.refresh(auth_req)
+            token = credentials.token
+
+            endpoint = f"https://us-central1-aiplatform.googleapis.com/v1/projects/{GCP_PROJECT}/locations/us-central1/publishers/google/models/lyria-002:predict"
+            payload = json.dumps({"instances": [{"text": lyria_prompt}]}).encode("utf-8")
+            req = urllib.request.Request(
+                endpoint,
+                data=payload,
+                headers={
+                    "Content-Type": "application/json",
+                    "Authorization": f"Bearer {token}",
+                },
+                method="POST",
+            )
+            with urllib.request.urlopen(req) as response:
+                res_json = json.loads(response.read().decode("utf-8"))
+                predictions = res_json.get("predictions", [])
+                if predictions and "bytesBase64Encoded" in predictions[0]:
+                    audio_b64 = predictions[0]["bytesBase64Encoded"]
+                    with open(lyria_bg_wav, "wb") as f:
+                        f.write(base64.b64decode(audio_b64))
+        except Exception as ex:
+            print(f"Lyria 2 REST fallback notice: {ex}")
 
     if not os.path.exists(lyria_bg_wav):
-        # High quality ambient instrumental background track using FFmpeg sine & harmonic wave synthesis
+        mood_profiles = {
+            "happy":      {"freqs": [261.63, 329.63, 392.00, 523.25], "hz": [1.5, 1.8, 2.0, 1.2], "echo": "0.6:0.75:40:0.3"},  # C major, upbeat
+            "calm":       {"freqs": [220.00, 261.63, 329.63, 440.00], "hz": [0.3, 0.25, 0.4, 0.2], "echo": "0.8:0.9:80:0.5"},   # A minor, slow & meditative
+            "energizing": {"freqs": [293.66, 369.99, 440.00, 587.33], "hz": [2.5, 3.0, 2.0, 2.8], "echo": "0.5:0.7:20:0.2"},   # D major, fast pulses
+            "peaceful":   {"freqs": [174.61, 220.00, 261.63, 349.23], "hz": [0.2, 0.3, 0.25, 0.15], "echo": "0.9:0.95:100:0.6"}, # F major, slow & wide
+            "meditative": {"freqs": [136.10, 170.00, 204.00, 272.00], "hz": [0.1, 0.15, 0.1, 0.12], "echo": "0.95:0.98:150:0.7"}, # Solfeggio 136Hz
+        }
+
+        mood_key = "calm"  # default
+        if any(w in fp_lower for w in ["happy", "upbeat", "joyful", "fun", "dance", "celebrate"]):
+            mood_key = "happy"
+        elif any(w in fp_lower for w in ["energi", "motivat", "pump", "run", "hike", "power"]):
+            mood_key = "energizing"
+        elif any(w in fp_lower for w in ["meditat", "zen", "mindful", "breathe", "solfeggio"]):
+            mood_key = "meditative"
+        elif any(w in fp_lower for w in ["peaceful", "serene", "quiet", "still", "soft", "gentle"]):
+            mood_key = "peaceful"
+
+        profile = mood_profiles[mood_key]
+
         cmd_bg = [
             "ffmpeg", "-y",
-            "-f", "lavfi", "-i", "sine=frequency=220:duration=30",
-            "-f", "lavfi", "-i", "sine=frequency=277.18:duration=30",
-            "-f", "lavfi", "-i", "sine=frequency=329.63:duration=30",
-            "-f", "lavfi", "-i", "sine=frequency=440:duration=30",
+            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][0]}:duration=30",
+            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][1]}:duration=30",
+            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][2]}:duration=30",
+            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][3]}:duration=30",
             "-filter_complex",
-            "[0:a]apulsator=mode=sine:hz=0.5,volume=0.2[a1];"
-            "[1:a]apulsator=mode=sine:hz=0.3,volume=0.2[a2];"
-            "[2:a]apulsator=mode=sine:hz=0.4,volume=0.2[a3];"
-            "[3:a]apulsator=mode=sine:hz=0.2,volume=0.15[a4];"
-            "[a1][a2][a3][a4]amix=inputs=4,aecho=0.8:0.88:60:0.4,lowpass=f=2500[bg]",
+            f"[0:a]apulsator=mode=sine:hz={profile['hz'][0]},volume=0.2[a1];"
+            f"[1:a]apulsator=mode=sine:hz={profile['hz'][1]},volume=0.2[a2];"
+            f"[2:a]apulsator=mode=sine:hz={profile['hz'][2]},volume=0.2[a3];"
+            f"[3:a]apulsator=mode=sine:hz={profile['hz'][3]},volume=0.15[a4];"
+            f"[a1][a2][a3][a4]amix=inputs=4,aecho={profile['echo']},lowpass=f=2800[bg]",
             "-map", "[bg]", "-ar", "44100", lyria_bg_wav
         ]
         subprocess.run(cmd_bg, check=True)

@@ -132,6 +132,8 @@ async def chat(req: Request):
 
             last_task = None
             got_artifact_update = False
+            artifacts_latest: dict[str, list] = {}
+
             async for event in a2a_client.send_message(send_req):
                 if hasattr(event, "HasField"):
                     if event.HasField("task"):
@@ -140,7 +142,12 @@ async def chat(req: Request):
                             _contexts[user_id] = event.task.context_id
                     if event.HasField("artifact_update"):
                         got_artifact_update = True
-                        parts.extend(_extract_parts(event.artifact_update.artifact.parts))
+                        art = event.artifact_update.artifact
+                        artifact_id = getattr(art, "artifact_id", None) or getattr(art, "name", "default")
+                        artifacts_latest[artifact_id] = art.parts
+
+            for artifact_parts in artifacts_latest.values():
+                parts.extend(_extract_parts(artifact_parts))
 
             if not got_artifact_update and last_task is not None:
                 for artifact in getattr(last_task, "artifacts", None) or []:
@@ -148,27 +155,22 @@ async def chat(req: Request):
     except Exception as ex:
         print(f"A2A connection notice (using direct tool handler): {ex}")
 
-    # Post-process response to GUARANTEE visual UI components for all requests
-    msg_lower = message.lower()
-    full_text = "\n".join([p.get("text", "") for p in parts if p.get("text")])
-
-    # 1. Guarantee MP3 Audio Player Asset for Song/Lyric prompts
-    if any(k in msg_lower for k in ["song", "lyric", "lo-fi", "soundtrack", "sing", "happy", "kannada", "hindi", "spanish", "japanese"]):
-        if "audio_stream_url" not in full_text and "Listen to live audio stream" not in full_text:
+    if not parts:
+        msg_lower = message.lower()
+        # Block 1: Song fallback (only if agent returned nothing)
+        if any(k in msg_lower for k in ["song", "lyric", "lo-fi", "soundtrack", "sing", "happy", "kannada", "hindi", "spanish", "japanese"]):
             from app.agent import generate_walk_soundtrack
             lang = "Kannada" if "kannada" in msg_lower else ("Hindi" if "hindi" in msg_lower else ("Spanish" if "spanish" in msg_lower else ("Japanese" if "japanese" in msg_lower else "English")))
             vibe = "happy" if any(k in msg_lower for k in ["happy", "upbeat", "joyful", "sing"]) else "ambient"
             res = generate_walk_soundtrack(user_prompt=message, vibe=vibe, theme=vibe, language=lang)
-            full_text += f"\n\n{res['message']}"
-            parts = [{"kind": "text", "text": full_text}]
+            parts = [{"kind": "text", "text": res["message"]}]
 
-    # 2. Guarantee Visual Weather Dashboard Card for Weather prompts
-    if any(k in msg_lower for k in ["weather", "uv", "temp", "sunny", "rain", "condition"]):
-        if "weather-dashboard-card" not in full_text:
+        # Block 2: Weather card fallback (only if agent returned nothing)
+        elif any(k in msg_lower for k in ["weather", "uv", "temp", "sunny", "rain", "condition"]):
             from app.agent import get_weather
             res = get_weather("Mountain View, CA", 37.3861, -122.0839)
-            weather_card = (
-                f"\n\n☀️ **Live Nature Walk Weather & AQI Dashboard:**\n"
+            formatted = (
+                f"☀️ **Live Nature Walk Weather & AQI Dashboard:**\n\n"
                 f'<div class="weather-dashboard-card">\n'
                 f'  <div class="weather-top-row">\n'
                 f'    <div class="temp-badge">🌡️ {res["temperature"]}</div>\n'
@@ -187,15 +189,13 @@ async def chat(req: Request):
                 f'  </div>\n'
                 f'</div>\n'
             )
-            full_text += weather_card
-            parts = [{"kind": "text", "text": full_text}]
+            parts = [{"kind": "text", "text": formatted}]
 
-    # 3. Guarantee Walk Spots & Interactive Map Route Triggers
-    if any(k in msg_lower for k in ["walk", "spot", "nature", "garden", "bamboo", "coffee", "park", "trail", "scenic"]):
-        if "route-trigger-btn" not in full_text:
+        # Block 3: Walk spots fallback (only if agent returned nothing)
+        elif any(k in msg_lower for k in ["walk", "spot", "nature", "garden", "bamboo", "coffee", "park", "trail", "scenic"]):
             from app.agent import get_nearby_scenic_walks
             res = get_nearby_scenic_walks(user_location_coords="37.3861,-122.0839")
-            formatted = "\n\n🌲 **Recommended Nature Spots Near Your Drop-Off Location:**\n\n"
+            formatted = "🌲 **Recommended Nature Spots Near Your Drop-Off Location:**\n\n"
             for spot in res.get("spots", []):
                 formatted += f"### 🌿 {spot['name']}\n"
                 formatted += f"![{spot['name']}]({spot['image_url']})\n\n"
@@ -204,16 +204,14 @@ async def chat(req: Request):
                 formatted += f"⭐ **Rating:** {spot['rating']}/5 Stars  |  ⛰️ **Elevation Gain:** {spot['elevation_gain_ft']} ft\n"
                 s_lat, s_lng, s_name = spot['lat'], spot['lng'], spot['name']
                 formatted += f'<button class="route-trigger-btn" onclick="plotSpotOnMap({s_lat}, {s_lng}, \'{s_name}\')">📍 Show Walking Route on Map</button>\n\n---\n\n'
-            full_text += formatted
-            parts = [{"kind": "text", "text": full_text}]
+            parts = [{"kind": "text", "text": formatted}]
 
-    # 4. Guarantee Visual Timeline Schedule Card
-    if any(k in msg_lower for k in ["time", "budget", "schedule", "pickup", "min", "class"]):
-        if "timeline-card" not in full_text:
+        # Block 4: Schedule fallback (only if agent returned nothing)
+        elif any(k in msg_lower for k in ["time", "budget", "schedule", "pickup", "min", "class"]):
             from app.agent import calculate_time_budget
             res = calculate_time_budget("04:00 PM", 45, 30, 5)
-            timeline_card = (
-                f"\n\n⏱️ **Zero-Stress Walk Timeline Schedule:**\n"
+            formatted = (
+                f"⏱️ **Zero-Stress Walk Timeline Schedule:**\n\n"
                 f'<div class="timeline-card">\n'
                 f'  <div class="timeline-header">🎒 {res["total_class_duration_mins"]} Mins Drop-Off Break Schedule</div>\n'
                 f'  <div class="timeline-step"><span>04:00 PM</span> <strong>Drop-Off Class Starts</strong> 🎒</div>\n'
@@ -223,8 +221,10 @@ async def chat(req: Request):
                 f'  <div class="timeline-step"><span>04:45 PM</span> <strong>Class Pickup Time</strong> 🎒</div>\n'
                 f'</div>\n'
             )
-            full_text += timeline_card
-            parts = [{"kind": "text", "text": full_text}]
+            parts = [{"kind": "text", "text": formatted}]
+
+        else:
+            parts = [{"kind": "text", "text": "🌿 Welcome to Drop-Off Oasis! Click any quick action chip below to discover fresh walks, weather, or custom music!"}]
 
     return JSONResponse({"parts": parts})
 
