@@ -207,6 +207,10 @@
     from { opacity: 0; transform: translateY(12px); }
     to { opacity: 1; transform: translateY(0); }
   }
+  @keyframes slideInCard {
+    from { opacity: 0; transform: translateY(16px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
 
   .msg-row.user { align-items: flex-end; }
   .msg-row.agent { align-items: flex-start; }
@@ -783,34 +787,124 @@ async function postChat(message) {
 
 // Format Markdown & Custom Media / UI Component Formatting
 function formatMarkdown(text) {
-  let html = text
-    .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
-    .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/!\[(.*?)\]\((.*?)\)/g, '<img src="$2" alt="$1" style="width:100%;border-radius:16px;margin:0.5rem 0;max-height:220px;object-fit:cover;">')
-    .replace(/(?:🎧 \*\*Listen to live audio stream:\*\* )?(https?:\/\/[^\s]+\.mp3)/g, function(match, url) {
-      return `
-        <div class="audio-player-card">
-          <div class="player-top">
-            <div class="viz-container">
-              <button class="play-btn" onclick="toggleAudio(this, '${url}')">
-                <span class="material-symbols-outlined">play_arrow</span>
-              </button>
-            </div>
-            <div>
-              <div style="font-weight:700;font-size:1.05rem;">🎼 Lyria 2 AI Walk Soundtrack (MP3)</div>
-              <div style="font-size:0.8rem;opacity:0.85;">Studio Vocal Narration + 30s Instrumental Music</div>
-            </div>
-          </div>
-          <audio controls id="active-audio" src="${url}" style="width:100%;margin-top:0.5rem;"></audio>
-          <div style="display:flex;justify-content:space-between;align-items:center;font-size:0.82rem;margin-top:0.3rem;">
-            <span>🎵 Format: MP3 192kbps Audio</span>
-            <a href="${url}" download target="_blank" style="color:#74c69d;font-weight:600;text-decoration:none;">⬇️ Download MP3</a>
-          </div>
-        </div>
-      `;
-    });
+  // Step 1: Detect and replace audio MP3 URLs with player card (before other processing)
+  text = text.replace(/(?:🎧[^\n]*\n)?(https?:\/\/[^\s\)]+\.mp3[^\s\)]*)/gi, (match, url) => {
+    const cleanUrl = url.replace(/[,\)]+$/, "");
+    return `<AUDIO_PLAYER:${cleanUrl}>`;  // placeholder, replaced at end
+  });
+
+  // Step 2: Split into sections by ### heading
+  const sections = text.split(/(?=###?\s)/);
+  let html = "";
+
+  for (let section of sections) {
+    section = section.trim();
+    if (!section) continue;
+
+    // Detect spot card section (contains 📍 + ⏱️ + ⭐ or image markdown)
+    const isSpotCard = /!\[.*?\]\(https?:\/\//.test(section) && /⏱️|walk time|distance/i.test(section);
+    // Detect weather section
+    const isWeather = /temperature|°F|UV index|precipitation|humidity/i.test(section) && /☀️|🌤️|🌡️/.test(section);
+    // Detect schedule/timeline section  
+    const isSchedule = /PM|AM/.test(section) && /schedule|timeline|drop.off|pickup/i.test(section);
+
+    if (isSpotCard) {
+      html += renderSpotCard(section);
+    } else if (isWeather) {
+      html += renderWeatherCard(section);
+    } else if (isSchedule) {
+      html += renderScheduleText(section);
+    } else {
+      html += renderTextSection(section);
+    }
+  }
+
+  // Step 3: Replace audio player placeholders
+  html = html.replace(/<AUDIO_PLAYER:(.*?)>/g, (match, url) => renderAudioPlayer(url));
 
   return html;
+}
+
+function renderTextSection(text) {
+  return text
+    .replace(/^####\s(.+)$/gm, '<h4 style="font-family:\'Google Sans\',sans-serif;color:var(--md-sys-color-primary);font-size:1rem;margin:0.75rem 0 0.3rem;font-weight:700;">$1</h4>')
+    .replace(/^###\s(.+)$/gm, '<h3 style="font-family:\'Google Sans\',sans-serif;color:var(--md-sys-color-primary);font-size:1.1rem;margin:1rem 0 0.4rem;font-weight:700;border-bottom:2px solid var(--md-sys-color-primary-container);padding-bottom:0.3rem;">$1</h3>')
+    .replace(/^##\s(.+)$/gm, '<h2 style="font-family:\'Google Sans\',sans-serif;color:var(--md-sys-color-primary);font-size:1.25rem;margin:1rem 0 0.5rem;font-weight:700;">$1</h2>')
+    .replace(/^---+$/gm, '<hr style="border:none;border-top:1px solid var(--md-sys-color-surface-variant);margin:0.75rem 0;">')
+    .replace(/^\* (.+)$/gm, '<div style="display:flex;gap:0.5rem;padding:0.2rem 0;align-items:flex-start;"><span style="color:var(--md-sys-color-primary);font-size:0.75rem;margin-top:0.2rem;">●</span><span>$1</span></div>')
+    .replace(/^\d+\. (.+)$/gm, '<div style="display:flex;gap:0.5rem;padding:0.2rem 0;"><span style="color:var(--md-sys-color-primary);font-weight:700;">•</span><span>$1</span></div>')
+    .replace(/\*\*(.*?)\*\*/g, '<strong style="color:var(--md-sys-color-on-primary-container);">$1</strong>')
+    .replace(/\*(.*?)\*/g, '<em>$1</em>')
+    .replace(/!\[(.*?)\]\((https?:\/\/[^\s\)]+)\)/g, '<img src="$2" alt="$1" style="width:100%;border-radius:14px;margin:0.6rem 0;max-height:220px;object-fit:cover;box-shadow:0 4px 12px rgba(0,0,0,0.1);">')
+    .replace(/\n\n/g, '</p><p style="margin:0.4rem 0;">')
+    .replace(/\n/g, '<br>');
+}
+
+function renderSpotCard(section) {
+  // Extract image if present
+  const imgMatch = section.match(/!\[(.*?)\]\((https?:\/\/[^\s\)]+)\)/);
+  const imgHtml = imgMatch
+    ? `<img src="${imgMatch[2]}" alt="${imgMatch[1]}" style="width:100%;height:180px;object-fit:cover;border-radius:12px 12px 0 0;">`
+    : "";
+
+  // Strip the image markdown from the text part
+  const bodyText = section.replace(/!\[.*?\]\(https?:\/\/[^\s\)]+\)/g, "").trim();
+  const title = bodyText.match(/^#+\s(.+)$/m)?.[1] || "";
+  const details = renderTextSection(bodyText.replace(/^#+\s.+$/m, "").trim());
+
+  return `
+    <div style="border:1px solid var(--md-sys-color-surface-variant);border-radius:16px;overflow:hidden;margin:0.75rem 0;box-shadow:var(--card-shadow);background:#fff;animation:slideInCard 0.3s ease-out;">
+      ${imgHtml}
+      <div style="padding:1rem;">
+        <h3 style="font-family:'Google Sans',sans-serif;color:var(--md-sys-color-primary);margin:0 0 0.6rem;font-size:1.05rem;font-weight:700;">${title}</h3>
+        <div style="font-size:0.92rem;line-height:1.6;">${details}</div>
+      </div>
+    </div>`;
+}
+
+function renderWeatherCard(section) {
+  const tempMatch = section.match(/(\d+)°F/);
+  const condMatch = section.match(/(?:Condition[s]?:|🌤️\s*)([\w\s]+)/i);
+  const uvMatch = section.match(/UV[^:]*[:\s]+([^\n*]+)/i);
+  const bodyHtml = renderTextSection(section);
+
+  return `
+    <div class="weather-dashboard-card" style="margin:0.5rem 0;">
+      <div class="weather-top-row">
+        <div class="temp-badge">🌡️ ${tempMatch ? tempMatch[0] : "72°F"}</div>
+        <div class="condition-badge">🌤️ ${condMatch ? condMatch[1].trim() : "Partly Cloudy"}</div>
+        ${uvMatch ? `<div class="aqi-badge">☀️ UV: ${uvMatch[1].trim()}</div>` : ""}
+      </div>
+      <div style="font-size:0.9rem;line-height:1.6;">${bodyHtml}</div>
+    </div>`;
+}
+
+function renderScheduleText(section) {
+  const bodyHtml = renderTextSection(section);
+  return `
+    <div class="timeline-card" style="margin:0.5rem 0;">
+      <div style="font-size:0.92rem;line-height:1.6;">${bodyHtml}</div>
+    </div>`;
+}
+
+function renderAudioPlayer(url) {
+  return `
+    <div class="audio-player-card">
+      <div class="player-top">
+        <button class="play-btn" onclick="toggleAudio(this, '${url}')">
+          <span class="material-symbols-outlined">play_arrow</span>
+        </button>
+        <div>
+          <div style="font-weight:700;font-size:1rem;">🎼 AI Walk Soundtrack</div>
+          <div style="font-size:0.78rem;opacity:0.85;">Gemini 2.5 Flash Vocal + Rhythmic Beats • MP3 192kbps</div>
+        </div>
+      </div>
+      <audio controls id="audio-${Math.random().toString(36).slice(2)}" src="${url}" style="width:100%;margin-top:0.5rem;border-radius:8px;"></audio>
+      <div style="display:flex;justify-content:space-between;font-size:0.8rem;margin-top:0.4rem;">
+        <span style="opacity:0.8;">30 seconds • AI-generated</span>
+        <a href="${url}" download style="color:#74c69d;font-weight:600;text-decoration:none;">⬇️ Download</a>
+      </div>
+    </div>`;
 }
 
 // Audio Player Toggle

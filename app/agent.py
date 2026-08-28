@@ -350,129 +350,158 @@ def generate_walk_soundtrack(
     if not lyrics_generated:
         lyrics_generated = f"🎵 Custom {language} Song on {full_prompt}\n(Synthesized live for your walk!)"
 
-    # 2. Generate Instrumental Background Stem (Lyria 2 / Ambient Synthesis)
+    # 2. Generate Instrumental Background Stem (Rhythmic Arpeggiated Audio via FFmpeg aevalsrc)
     unique_id = str(uuid.uuid4())[:8]
     lyria_bg_wav = f"/tmp/lyria_bg_{unique_id}.wav"
     tts_vocals_wav = f"/tmp/tts_vocals_{unique_id}.wav"
     mixed_output_mp3 = f"/tmp/soundtrack_{unique_id}.mp3"
 
     fp_lower = (full_prompt + " " + vibe).lower()
-    lyria_prompt = (
-        f"{full_prompt}, {vibe}, {theme}, "
-        f"instrumental only, no lyrics, 30 seconds, nature walk music, "
-        f"{'upbeat energetic' if 'happy' in fp_lower else 'calm meditative'} mood"
+
+    # Mood-responsive arpeggiated background profiles with rhythmic beats
+    mood_profiles = {
+        "happy": {
+            "bpm": 120,
+            "notes": [261.63, 329.63, 392.00, 523.25],  # C major chord
+            "filters": "vibrato=f=6:d=0.3,chorus=0.5:0.9:50|60:0.4|0.32:0.25|0.4:2|1.3,volume=0.7",
+        },
+        "calm": {
+            "bpm": 60,
+            "notes": [220.00, 261.63, 329.63, 440.00],  # A minor
+            "filters": "vibrato=f=3:d=0.5,aecho=0.8:0.9:80:0.4,lowpass=f=1800,volume=0.5",
+        },
+        "energizing": {
+            "bpm": 140,
+            "notes": [293.66, 369.99, 440.00, 587.33],  # D major
+            "filters": "vibrato=f=8:d=0.2,chorus=0.5:0.9:30|40:0.4|0.32:0.3|0.4:2|1.3,volume=0.8",
+        },
+        "peaceful": {
+            "bpm": 50,
+            "notes": [174.61, 220.00, 261.63, 349.23],  # F major
+            "filters": "vibrato=f=2:d=0.6,aecho=0.9:0.95:120:0.6,lowpass=f=1500,volume=0.45",
+        },
+        "meditative": {
+            "bpm": 40,
+            "notes": [136.10, 181.63, 204.00, 272.00],  # Solfeggio
+            "filters": "vibrato=f=1:d=0.8,aecho=0.95:0.98:180:0.7,lowpass=f=1200,volume=0.4",
+        },
+    }
+
+    mood_key = "calm"  # default
+    if any(w in fp_lower for w in ["happy", "upbeat", "joyful", "fun", "dance", "celebrate", "sing"]):
+        mood_key = "happy"
+    elif any(w in fp_lower for w in ["energi", "motivat", "pump", "run", "hike", "power"]):
+        mood_key = "energizing"
+    elif any(w in fp_lower for w in ["meditat", "zen", "mindful", "breathe", "solfeggio"]):
+        mood_key = "meditative"
+    elif any(w in fp_lower for w in ["peaceful", "serene", "quiet", "still", "soft", "gentle"]):
+        mood_key = "peaceful"
+
+    profile = mood_profiles[mood_key]
+    bpm = profile["bpm"]
+    notes = profile["notes"]
+    beat_hz = bpm / 60.0
+
+    # Amplitude envelope creates actual rhythmic beats
+    expr = (
+        f"(0.3+0.7*abs(sin(PI*{beat_hz}*t)))*("
+        f"sin(2*PI*{notes[0]}*t)*0.3+"
+        f"sin(2*PI*{notes[1]}*t)*0.25+"
+        f"sin(2*PI*{notes[2]}*t)*0.2+"
+        f"sin(2*PI*{notes[3]}*t)*0.15+"
+        f"sin(2*PI*{notes[0]*2}*t)*0.08)"
     )
 
-    # Try Vertex AI Lyria 2 music generation or synthesize rich ambient background track via FFmpeg
+    cmd_bg = [
+        "ffmpeg", "-y",
+        "-f", "lavfi",
+        "-i", f"aevalsrc='{expr}':s=44100:d=30",
+        "-af", profile["filters"],
+        "-ar", "44100",
+        lyria_bg_wav
+    ]
     try:
-        gemini_client = GenAIClient(vertexai=True, project=GCP_PROJECT, location="us-central1")
-        res = gemini_client.models.generate_content(
-            model="lyria-002",
-            contents=lyria_prompt,
-        )
-        if res and res.candidates:
-            for candidate in res.candidates:
-                for part in candidate.content.parts:
-                    if hasattr(part, "inline_data") and part.inline_data and part.inline_data.data:
-                        with open(lyria_bg_wav, "wb") as f:
-                            f.write(part.inline_data.data)
-                        break
+        subprocess.run(cmd_bg, check=True, capture_output=True)
     except Exception as ex:
-        print(f"Lyria 2 notice: {ex}")
+        print(f"aevalsrc background error: {ex}")
 
-    # REST fallback for Lyria 2 if SDK call failed or lyria_bg_wav not created yet
-    if not os.path.exists(lyria_bg_wav):
-        try:
-            import base64
-            import google.auth
-            import google.auth.transport.requests
+    # 3. Generate Expressive Vocals via Gemini 2.5 Flash Native Audio / Cloud TTS SSML Fallback
+    singing_voice_map = {
+        "kannada":  {"voice": "Kore",    "style": "joyful and melodic, sing expressively"},
+        "hindi":    {"voice": "Puck",    "style": "warm and musical, sing with rhythm"},
+        "english":  {"voice": "Aoede",   "style": "bright and melodic, sing with energy"},
+        "spanish":  {"voice": "Charon",  "style": "lively and rhythmic, sing passionately"},
+        "japanese": {"voice": "Fenrir",  "style": "gentle and flowing, sing softly"},
+    }
+    voice_cfg = singing_voice_map.get(language.lower(), {"voice": "Kore", "style": "joyful and melodic"})
 
-            credentials, project = google.auth.default()
-            auth_req = google.auth.transport.requests.Request()
-            credentials.refresh(auth_req)
-            token = credentials.token
+    singing_prompt = (
+        f"You are a joyful singer. Sing these lyrics {voice_cfg['style']} "
+        f"with clear melody, rhythm, and musical expression — not speaking, but SINGING:\n\n"
+        f"{lyrics_generated}"
+    )
 
-            endpoint = f"https://us-central1-aiplatform.googleapis.com/v1/projects/{GCP_PROJECT}/locations/us-central1/publishers/google/models/lyria-002:predict"
-            payload = json.dumps({"instances": [{"text": lyria_prompt}]}).encode("utf-8")
-            req = urllib.request.Request(
-                endpoint,
-                data=payload,
-                headers={
-                    "Content-Type": "application/json",
-                    "Authorization": f"Bearer {token}",
-                },
-                method="POST",
+    gemini_audio_success = False
+    try:
+        gemini_audio_client = GenAIClient(vertexai=True, project=GCP_PROJECT, location="us-central1")
+        audio_response = gemini_audio_client.models.generate_content(
+            model="gemini-2.5-flash-preview-tts",
+            contents=singing_prompt,
+            config=types.GenerateContentConfig(
+                response_modalities=["AUDIO"],
+                speech_config=types.SpeechConfig(
+                    voice_config=types.VoiceConfig(
+                        prebuilt_voice_config=types.PrebuiltVoiceConfig(
+                            voice_name=voice_cfg["voice"]
+                        )
+                    )
+                )
             )
-            with urllib.request.urlopen(req) as response:
-                res_json = json.loads(response.read().decode("utf-8"))
-                predictions = res_json.get("predictions", [])
-                if predictions and "bytesBase64Encoded" in predictions[0]:
-                    audio_b64 = predictions[0]["bytesBase64Encoded"]
-                    with open(lyria_bg_wav, "wb") as f:
-                        f.write(base64.b64decode(audio_b64))
-        except Exception as ex:
-            print(f"Lyria 2 REST fallback notice: {ex}")
-
-    if not os.path.exists(lyria_bg_wav):
-        mood_profiles = {
-            "happy":      {"freqs": [261.63, 329.63, 392.00, 523.25], "hz": [1.5, 1.8, 2.0, 1.2], "echo": "0.6:0.75:40:0.3"},  # C major, upbeat
-            "calm":       {"freqs": [220.00, 261.63, 329.63, 440.00], "hz": [0.3, 0.25, 0.4, 0.2], "echo": "0.8:0.9:80:0.5"},   # A minor, slow & meditative
-            "energizing": {"freqs": [293.66, 369.99, 440.00, 587.33], "hz": [2.5, 3.0, 2.0, 2.8], "echo": "0.5:0.7:20:0.2"},   # D major, fast pulses
-            "peaceful":   {"freqs": [174.61, 220.00, 261.63, 349.23], "hz": [0.2, 0.3, 0.25, 0.15], "echo": "0.9:0.95:100:0.6"}, # F major, slow & wide
-            "meditative": {"freqs": [136.10, 170.00, 204.00, 272.00], "hz": [0.1, 0.15, 0.1, 0.12], "echo": "0.95:0.98:150:0.7"}, # Solfeggio 136Hz
-        }
-
-        mood_key = "calm"  # default
-        if any(w in fp_lower for w in ["happy", "upbeat", "joyful", "fun", "dance", "celebrate"]):
-            mood_key = "happy"
-        elif any(w in fp_lower for w in ["energi", "motivat", "pump", "run", "hike", "power"]):
-            mood_key = "energizing"
-        elif any(w in fp_lower for w in ["meditat", "zen", "mindful", "breathe", "solfeggio"]):
-            mood_key = "meditative"
-        elif any(w in fp_lower for w in ["peaceful", "serene", "quiet", "still", "soft", "gentle"]):
-            mood_key = "peaceful"
-
-        profile = mood_profiles[mood_key]
-
-        cmd_bg = [
-            "ffmpeg", "-y",
-            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][0]}:duration=30",
-            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][1]}:duration=30",
-            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][2]}:duration=30",
-            "-f", "lavfi", "-i", f"sine=frequency={profile['freqs'][3]}:duration=30",
-            "-filter_complex",
-            f"[0:a]apulsator=mode=sine:hz={profile['hz'][0]},volume=0.2[a1];"
-            f"[1:a]apulsator=mode=sine:hz={profile['hz'][1]},volume=0.2[a2];"
-            f"[2:a]apulsator=mode=sine:hz={profile['hz'][2]},volume=0.2[a3];"
-            f"[3:a]apulsator=mode=sine:hz={profile['hz'][3]},volume=0.15[a4];"
-            f"[a1][a2][a3][a4]amix=inputs=4,aecho={profile['echo']},lowpass=f=2800[bg]",
-            "-map", "[bg]", "-ar", "44100", lyria_bg_wav
-        ]
-        subprocess.run(cmd_bg, check=True)
-
-    # 3. Generate Vocals via Cloud TTS Studio / Neural2 Voices
-    try:
-        tts_client = tts.TextToSpeechClient()
-        studio_voice_map = {
-            "english": ("en-US", "en-US-Studio-Q"),
-            "hindi": ("hi-IN", "hi-IN-Studio-D"),
-            "spanish": ("es-ES", "es-ES-Neural2-C"),
-            "kannada": ("kn-IN", "kn-IN-Wavenet-A"),
-            "japanese": ("ja-JP", "ja-JP-Neural2-B"),
-        }
-        l_code, v_name = studio_voice_map.get(language.lower(), ("en-US", "en-US-Studio-Q"))
-
-        s_input = tts.SynthesisInput(text=lyrics_generated[:250])
-        voice = tts.VoiceSelectionParams(language_code=l_code, name=v_name)
-        audio_config = tts.AudioConfig(audio_encoding=tts.AudioEncoding.LINEAR16, speaking_rate=0.95, pitch=2.0)
-        tts_res = tts_client.synthesize_speech(input=s_input, voice=voice, audio_config=audio_config)
-
-        with open(tts_vocals_wav, "wb") as f_voc:
-            f_voc.write(tts_res.audio_content)
+        )
+        if (audio_response and audio_response.candidates and
+            audio_response.candidates[0].content.parts and
+            hasattr(audio_response.candidates[0].content.parts[0], "inline_data")):
+            audio_data = audio_response.candidates[0].content.parts[0].inline_data.data
+            with open(tts_vocals_wav, "wb") as f_voc:
+                f_voc.write(audio_data)
+            gemini_audio_success = True
     except Exception as ex:
-        print(f"Cloud TTS Studio Voice error: {ex}")
+        print(f"Gemini 2.5 Flash native audio singing notice: {ex}")
 
-    # 4. FFmpeg Mixing: Vocals at 0.85 volume over Lyria background at 0.5 volume with 2s fade-in/fade-out
+    if not gemini_audio_success:
+        try:
+            tts_client = tts.TextToSpeechClient()
+            studio_voice_map = {
+                "english": ("en-US", "en-US-Studio-Q"),
+                "hindi": ("hi-IN", "hi-IN-Studio-D"),
+                "spanish": ("es-ES", "es-ES-Neural2-C"),
+                "kannada": ("kn-IN", "kn-IN-Wavenet-A"),
+                "japanese": ("ja-JP", "ja-JP-Neural2-B"),
+            }
+            l_code, v_name = studio_voice_map.get(language.lower(), ("en-US", "en-US-Studio-Q"))
+
+            ssml_lyrics = "<speak>"
+            for line in lyrics_generated.split("\n")[:4]:
+                if line.strip():
+                    ssml_lyrics += f'<prosody rate="medium" pitch="+4st"><emphasis level="moderate">{line.strip()}</emphasis></prosody><break time="400ms"/>'
+            ssml_lyrics += "</speak>"
+
+            s_input = tts.SynthesisInput(ssml=ssml_lyrics)
+            voice = tts.VoiceSelectionParams(language_code=l_code, name=v_name)
+            audio_config = tts.AudioConfig(
+                audio_encoding=tts.AudioEncoding.LINEAR16,
+                speaking_rate=0.88,
+                pitch=4.0,
+                effects_profile_id=["headphone-class-device"]
+            )
+            tts_res = tts_client.synthesize_speech(input=s_input, voice=voice, audio_config=audio_config)
+
+            with open(tts_vocals_wav, "wb") as f_voc:
+                f_voc.write(tts_res.audio_content)
+        except Exception as ex:
+            print(f"Cloud TTS fallback Voice error: {ex}")
+
+    # 4. FFmpeg Mixing: Vocals with reverb & EQ over rhythmic beats with 1.5s fade-in/out
     out_gcs_url = f"https://storage.googleapis.com/drop-off-oasis-media-688258816137/audio/soundtrack_{unique_id}.mp3"
     try:
         if os.path.exists(lyria_bg_wav) and os.path.exists(tts_vocals_wav):
@@ -481,7 +510,9 @@ def generate_walk_soundtrack(
                 "-i", lyria_bg_wav,
                 "-i", tts_vocals_wav,
                 "-filter_complex",
-                "[0:a]volume=0.5[bg];[1:a]volume=0.85[fg];[bg][fg]amix=inputs=2:duration=longest,afade=t=in:d=2,afade=t=out:st=28:d=2[out]",
+                "[0:a]volume=0.45[bg];"
+                "[1:a]aecho=0.8:0.88:30:0.3,equalizer=f=800:width_type=o:width=2:g=3,volume=0.9[fg];"
+                "[bg][fg]amix=inputs=2:duration=longest,afade=t=in:d=1.5,afade=t=out:st=28:d=2[out]",
                 "-map", "[out]", "-ar", "44100", "-c:a", "libmp3lame", "-b:a", "192k", mixed_output_mp3
             ]
             subprocess.run(cmd_mix, check=True)

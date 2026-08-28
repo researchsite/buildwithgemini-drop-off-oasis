@@ -190,6 +190,41 @@ Below is the complete sequence of prompts provided during the design, building, 
 
 ---
 
+### Error 10: Conversation Duplication During A2A Streaming & Fallback Appending
+- **Symptom**: Chat messages repeated content multiple times in the same response bubble.
+- **Root Cause**: Two independent issues:
+  1. `parts.extend()` was called on every streaming event, but Vertex AI streams full accumulated content per artifact event rather than deltas.
+  2. Fallback post-processing blocks ran unconditionally even when the agent had already answered, appending duplicate HTML cards to `full_text`.
+- **Solution**:
+  1. Tracked streaming parts per artifact ID in `main.py` using `artifacts_latest[art_id] = event.artifact.parts` to keep only the latest state.
+  2. Wrapped all fallback blocks in `if not parts:` so they only run when the agent returns an empty response.
+
+---
+
+### Error 11: Static Sine Waves & Robotic Voice Instead of Singing Song
+- **Symptom**: Background audio sounded like an electronic hum/drone, and voice read lyrics as speech.
+- **Root Cause**:
+  1. `lyria-002` API calls failed silently due to quota limits, causing fallback to static FFmpeg `sine` generators.
+  2. Speech TTS voices lack musical pitch/tempo control, reading lyrics as plain speech over the drone.
+- **Solution**:
+  1. Replaced static `sine` generators with FFmpeg `aevalsrc` amplitude modulation (`(0.3+0.7*abs(sin(PI*beat_hz*t)))`) driving mood-based tempo BPM and chord frequencies to create actual pulsing beats.
+  2. Used `gemini-2.5-flash-preview-tts` with `response_modalities=["AUDIO"]` and `PrebuiltVoiceConfig` prompted to sing in native languages (*Kore*, *Puck*, *Aoede*, *Charon*, *Fenrir*).
+  3. Added FFmpeg `aecho` reverb and `equalizer` mid-frequency boost for studio-quality vocal mixing.
+
+---
+
+### Error 12: Unstyled Plain Text Responses
+- **Symptom**: Agent responses appeared as unformatted plain markdown without visual cards or styling.
+- **Root Cause**: `formatMarkdown()` in `index.html` only handled bold/italic tags and plain audio links, ignoring headings, bullet lists, and structured card patterns.
+- **Solution**:
+  Replaced `formatMarkdown()` with a section-based markdown parser that detects card types by emoji and regex signatures:
+  - Spot Cards: `renderSpotCard()` with responsive images and `slideInCard` animations.
+  - Weather Dashboards: `renderWeatherCard()` with temperature, condition, and UV badges.
+  - Schedules/Timelines: `renderScheduleText()` with timeline card styling.
+  - Audio Players: `renderAudioPlayer()` with HTML5 controls and MP3 download links.
+
+---
+
 ## 3. Key Architecture Patterns & Lessons Learned
 
 1. **A2A Protocol & Protobuf Handling**: Always use `google.protobuf.json_format.ParseDict` when deserializing camelCase JSON from cloud agent frameworks into Python Protobuf instances.
@@ -197,4 +232,7 @@ Below is the complete sequence of prompts provided during the design, building, 
 3. **Session State Memory in RAG**: When building retrieval tools, maintain state tracking (e.g., `_SEEN_SPOTS` or Vertex AI Memory Bank) to prevent repetitive results.
 4. **Rich Visual Chat UIs**: Combine plain text replies with custom markdown parsers for images, inline HTML5 audio controls, and native A2UI cards to maximize user engagement.
 5. **PNG Diagrams for GitHub Compatibility**: Always provide rasterized PNG fallbacks alongside SVG diagrams so repository pages render cleanly on GitHub and mobile browsers.
+6. **A2A Artifact Stream Tracking**: Map artifact IDs to their latest part lists (`artifacts_latest[art_id] = parts`) rather than appending deltas to avoid text duplication.
+7. **Gemini 2.5 Flash Native Audio**: Use `gemini-2.5-flash-preview-tts` with `response_modalities=["AUDIO"]` and prebuilt voices for expressive multi-lingual singing audio synthesis.
+
 
