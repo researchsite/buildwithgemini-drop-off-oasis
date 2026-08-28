@@ -147,15 +147,15 @@ async def chat(req: Request):
 
     if not parts:
         msg_lower = message.lower()
-        if any(k in msg_lower for k in ["song", "lyric", "lo-fi", "soundtrack", "sing", "happy"]):
+        if any(k in msg_lower for k in ["song", "lyric", "lo-fi", "soundtrack", "sing", "happy", "kannada", "hindi", "spanish", "japanese"]):
             from app.agent import generate_walk_soundtrack
             lang = "Kannada" if "kannada" in msg_lower else ("Hindi" if "hindi" in msg_lower else ("Spanish" if "spanish" in msg_lower else ("Japanese" if "japanese" in msg_lower else "English")))
             vibe = "happy" if any(k in msg_lower for k in ["happy", "upbeat", "joyful", "sing"]) else "ambient"
-            res = generate_walk_soundtrack(vibe=vibe, theme=vibe, language=lang)
+            res = generate_walk_soundtrack(user_prompt=message, vibe=vibe, theme=vibe, language=lang)
             parts = [{"kind": "text", "text": res["message"]}]
         elif any(k in msg_lower for k in ["walk", "spot", "nature", "garden", "bamboo", "coffee"]):
             from app.agent import get_nearby_scenic_walks
-            res = get_nearby_scenic_walks()
+            res = get_nearby_scenic_walks("Oakridge Shaded Forest Loop")
             parts = [{"kind": "text", "text": res["message"]}]
         elif any(k in msg_lower for k in ["time", "budget", "schedule", "pickup"]):
             from app.agent import calculate_time_budget
