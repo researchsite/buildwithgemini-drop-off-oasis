@@ -52,31 +52,35 @@
 
   <!-- Title -->
   <text x="600" y="45" text-anchor="middle" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="1">DROP-OFF OASIS ARCHITECTURE DIAGRAM</text>
-  <text x="600" y="70" text-anchor="middle" fill="#94a3b8" font-size="14">End-to-End ADK Agent, A2A Protocol, Audio Engine &amp; Vertex AI Cloud Infrastructure</text>
+  <text x="600" y="70" text-anchor="middle" fill="#94a3b8" font-size="14">End-to-End ADK Agent, A2A Protocol, Gemini 2.5 Flash Audio &amp; Vertex AI Infrastructure</text>
 
-  <!-- Node 1: Browser Client -->
+  <!-- Node 1: Split-Panel Web Client -->
   <g filter="url(#shadow)">
-    <rect x="50" y="140" width="240" height="460" rx="16" fill="url(#cardGrad1)" stroke="#38bdf8" stroke-width="1.5"/>
-    <rect x="50" y="140" width="240" height="50" rx="16" fill="url(#accentGrad)"/>
-    <text x="170" y="172" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Web Client UI</text>
-    <text x="170" y="215" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="600">HTML5 + Native A2UI Renderer</text>
+    <rect x="50" y="120" width="240" height="500" rx="16" fill="url(#cardGrad1)" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="50" y="120" width="240" height="50" rx="16" fill="url(#accentGrad)"/>
+    <text x="170" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Split-Panel Web Client</text>
+    <text x="170" y="195" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="600">Material Design 3 + Leaflet</text>
 
     <!-- Sub components -->
-    <rect x="70" y="240" width="200" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="263" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">💬 Chat Bubble Component</text>
-    <text x="170" y="280" text-anchor="middle" fill="#94a3b8" font-size="10">Markdown Images &amp; Text</text>
+    <rect x="70" y="215" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🗺️ Leaflet OpenStreetMap</text>
+    <text x="170" y="253" text-anchor="middle" fill="#94a3b8" font-size="10">Interactive Route Drawing</text>
 
-    <rect x="70" y="315" width="200" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="338" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🪪 A2UI Card Engine</text>
-    <text x="170" y="355" text-anchor="middle" fill="#94a3b8" font-size="10">Dynamic Rich Widgets</text>
+    <rect x="70" y="275" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="298" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">💬 Rich Markdown Parser</text>
+    <text x="170" y="313" text-anchor="middle" fill="#94a3b8" font-size="10">Cards for Spots, Weather, Audio</text>
 
-    <rect x="70" y="390" width="200" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="413" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🎧 HTML5 Audio Streamer</text>
-    <text x="170" y="430" text-anchor="middle" fill="#94a3b8" font-size="10">30s Studio Player</text>
+    <rect x="70" y="335" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="358" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🎧 HTML5 Audio Streamer</text>
+    <text x="170" y="373" text-anchor="middle" fill="#94a3b8" font-size="10">Gemini 2.5 Flash Vocal Player</text>
 
-    <rect x="70" y="465" width="200" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="488" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">📸 Photo Logger</text>
-    <text x="170" y="505" text-anchor="middle" fill="#94a3b8" font-size="10">Pre-Review Image Upload</text>
+    <rect x="70" y="395" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="418" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">👥 Walk Buddy Sidebar</text>
+    <text x="170" y="433" text-anchor="middle" fill="#94a3b8" font-size="10">Parent Community Matching</text>
+
+    <rect x="70" y="455" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="478" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">📸 Photo Logger</text>
+    <text x="170" y="493" text-anchor="middle" fill="#94a3b8" font-size="10">Pre-Review Image Upload</text>
   </g>
 
   <!-- Arrow 1 -> 2 -->
@@ -85,23 +89,23 @@
 
   <!-- Node 2: FastAPI Proxy Server -->
   <g filter="url(#shadow)">
-    <rect x="350" y="140" width="240" height="460" rx="16" fill="url(#cardGrad1)" stroke="#4caf50" stroke-width="1.5"/>
-    <rect x="350" y="140" width="240" height="50" rx="16" fill="url(#primaryGrad)"/>
-    <text x="470" y="172" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">FastAPI A2A Proxy</text>
-    <text x="470" y="215" text-anchor="middle" fill="#4caf50" font-size="13" font-weight="600">frontend/main.py (Port 8085)</text>
+    <rect x="350" y="120" width="240" height="500" rx="16" fill="url(#cardGrad1)" stroke="#4caf50" stroke-width="1.5"/>
+    <rect x="350" y="120" width="240" height="50" rx="16" fill="url(#primaryGrad)"/>
+    <text x="470" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">FastAPI A2A Proxy</text>
+    <text x="470" y="195" text-anchor="middle" fill="#4caf50" font-size="13" font-weight="600">frontend/main.py (Port 8085)</text>
 
     <!-- Sub components -->
-    <rect x="370" y="250" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="470" y="275" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">⚡ /chat Endpoint</text>
-    <text x="470" y="295" text-anchor="middle" fill="#94a3b8" font-size="10">Async Event Streaming</text>
+    <rect x="370" y="230" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="470" y="255" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">⚡ /chat Endpoint</text>
+    <text x="470" y="275" text-anchor="middle" fill="#94a3b8" font-size="10">Async Artifact Streaming</text>
 
-    <rect x="370" y="330" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="470" y="355" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔌 A2A Client Connector</text>
-    <text x="470" y="375" text-anchor="middle" fill="#94a3b8" font-size="10">Card Parsing &amp; Protocol</text>
+    <rect x="370" y="310" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="470" y="335" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔌 A2A Client Connector</text>
+    <text x="470" y="355" text-anchor="middle" fill="#94a3b8" font-size="10">artifacts_latest Deduplication</text>
 
-    <rect x="370" y="410" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="470" y="435" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔁 URL Rewriter</text>
-    <text x="470" y="455" text-anchor="middle" fill="#94a3b8" font-size="10">Internal Container -> GCP</text>
+    <rect x="370" y="390" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="470" y="415" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔁 URL Rewriter</text>
+    <text x="470" y="435" text-anchor="middle" fill="#94a3b8" font-size="10">Internal Container -> GCP</text>
   </g>
 
   <!-- Arrow 2 -> 3 -->
@@ -110,26 +114,32 @@
 
   <!-- Node 3: Vertex AI Agent Runtime -->
   <g filter="url(#shadow)">
-    <rect x="650" y="140" width="250" height="460" rx="16" fill="url(#cardGrad1)" stroke="#fbbf24" stroke-width="1.5"/>
-    <rect x="650" y="140" width="250" height="50" rx="16" fill="url(#goldGrad)"/>
-    <text x="775" y="172" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Agent Runtime (GCP)</text>
-    <text x="775" y="215" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">ReasoningEngine 65110439...</text>
+    <rect x="650" y="120" width="250" height="500" rx="16" fill="url(#cardGrad1)" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="650" y="120" width="250" height="50" rx="16" fill="url(#goldGrad)"/>
+    <text x="775" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Agent Runtime (GCP)</text>
+    <text x="775" y="195" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">ReasoningEngine 65110439...</text>
 
     <!-- Tools -->
-    <rect x="670" y="240" width="210" height="45" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="267" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🌲 get_nearby_scenic_walks</text>
+    <rect x="670" y="215" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="239" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🌲 get_nearby_scenic_walks</text>
 
-    <rect x="670" y="295" width="210" height="45" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="322" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🧠 RAG Memory Filter</text>
+    <rect x="670" y="260" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="284" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🎙️ generate_walk_soundtrack</text>
 
-    <rect x="670" y="350" width="210" height="45" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="377" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🎙️ generate_walk_soundtrack</text>
+    <rect x="670" y="305" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="329" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">⏱️ calculate_time_budget</text>
 
-    <rect x="670" y="405" width="210" height="45" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="432" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">⏱️ calculate_time_budget</text>
+    <rect x="670" y="350" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="374" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">☀️ get_weather</text>
 
-    <rect x="670" y="460" width="210" height="45" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="487" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">📸 submit_place_review</text>
+    <rect x="670" y="395" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="419" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">👥 find_walk_buddy</text>
+
+    <rect x="670" y="440" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="464" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🔥 log_walk_streak</text>
+
+    <rect x="670" y="485" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="509" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">📸 submit_place_review</text>
   </g>
 
   <!-- Arrow 3 -> Services -->
@@ -137,26 +147,30 @@
 
   <!-- Node 4: External Google Cloud Services -->
   <g filter="url(#shadow)">
-    <rect x="960" y="140" width="190" height="460" rx="16" fill="url(#cardGrad1)" stroke="#a855f7" stroke-width="1.5"/>
-    <rect x="960" y="140" width="190" height="50" rx="16" fill="#9333ea"/>
-    <text x="1055" y="172" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Google Cloud APIs</text>
-    <text x="1055" y="215" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="600">Cloud Services</text>
+    <rect x="960" y="120" width="190" height="500" rx="16" fill="url(#cardGrad1)" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="960" y="120" width="190" height="50" rx="16" fill="#9333ea"/>
+    <text x="1055" y="152" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Google Cloud APIs</text>
+    <text x="1055" y="195" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="600">Cloud Services</text>
 
-    <rect x="975" y="250" width="160" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="275" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🗣️ Cloud TTS API</text>
-    <text x="1055" y="292" text-anchor="middle" fill="#94a3b8" font-size="10">Neural2 Voice Engine</text>
+    <rect x="975" y="215" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🎤 Gemini 2.5 Flash TTS</text>
+    <text x="1055" y="253" text-anchor="middle" fill="#94a3b8" font-size="10">Expressive Singing Voices</text>
 
-    <rect x="975" y="325" width="160" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="350" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🪣 Cloud Storage</text>
-    <text x="1055" y="367" text-anchor="middle" fill="#94a3b8" font-size="10">Audio Media Bucket</text>
+    <rect x="975" y="275" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="298" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🪣 Cloud Storage (GCS)</text>
+    <text x="1055" y="313" text-anchor="middle" fill="#94a3b8" font-size="10">MP3 Audio &amp; Trip Photos</text>
 
-    <rect x="975" y="400" width="160" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="425" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">✨ Gemini 3.6 Flash</text>
-    <text x="1055" y="442" text-anchor="middle" fill="#94a3b8" font-size="10">LLM Engine</text>
+    <rect x="975" y="335" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="358" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔥 Cloud Firestore</text>
+    <text x="1055" y="373" text-anchor="middle" fill="#94a3b8" font-size="10">Reviews &amp; Walk Streaks</text>
 
-    <rect x="975" y="475" width="160" height="55" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="500" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🗺️ Static Maps API</text>
-    <text x="1055" y="517" text-anchor="middle" fill="#94a3b8" font-size="10">Trail Location Views</text>
+    <rect x="975" y="395" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="418" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">☀️ Open-Meteo API</text>
+    <text x="1055" y="433" text-anchor="middle" fill="#94a3b8" font-size="10">Weather, AQI &amp; UV Index</text>
+
+    <rect x="975" y="455" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="478" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">✨ Gemini 2.5 Flash</text>
+    <text x="1055" y="493" text-anchor="middle" fill="#94a3b8" font-size="10">ADK LLM Reasoner</text>
   </g>
 
   <!-- Footer -->
