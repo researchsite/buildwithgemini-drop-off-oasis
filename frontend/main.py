@@ -274,6 +274,7 @@ async def upload_photo(
     })
 
 
+app.mount("/docs", StaticFiles(directory="../docs"), name="docs")
 app.mount("/", StaticFiles(directory="static", html=True), name="static")
 
 

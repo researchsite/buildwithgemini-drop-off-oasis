@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680" style="background:#0f172a; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 680" width="1200" height="680">
   <defs>
     <linearGradient id="bgGrad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#0f172a"/>
@@ -6,8 +6,8 @@
     </linearGradient>
     
     <linearGradient id="cardGrad1" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1e293b" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#334155" stop-opacity="0.7"/>
+      <stop offset="0%" stop-color="#1e293b"/>
+      <stop offset="100%" stop-color="#334155"/>
     </linearGradient>
 
     <linearGradient id="primaryGrad" x1="0%" y1="0%" x2="100%" y2="0%">
@@ -24,14 +24,6 @@
       <stop offset="0%" stop-color="#d97706"/>
       <stop offset="100%" stop-color="#fbbf24"/>
     </linearGradient>
-
-    <filter id="glow" x="-20%" y="-20%" width="140%" height="140%">
-      <feGaussianBlur stdDeviation="6" result="blur"/>
-    </filter>
-
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
-    </filter>
 
     <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
       <path d="M 0 0 L 10 5 L 0 10 z" fill="#38bdf8"/>
@@ -56,128 +48,128 @@
   </g>
 
   <!-- Title -->
-  <text x="600" y="45" text-anchor="middle" fill="#f8fafc" font-size="24" font-weight="700" letter-spacing="1">DROP-OFF OASIS ARCHITECTURE DIAGRAM</text>
-  <text x="600" y="70" text-anchor="middle" fill="#94a3b8" font-size="14">End-to-End ADK Agent, A2A Protocol, Gemini 2.5 Flash Audio &amp; Vertex AI Infrastructure</text>
+  <text x="600" y="45" text-anchor="middle" fill="#f8fafc" font-size="24" font-weight="bold" font-family="sans-serif">DROP-OFF OASIS ARCHITECTURE DIAGRAM</text>
+  <text x="600" y="70" text-anchor="middle" fill="#94a3b8" font-size="14" font-family="sans-serif">End-to-End ADK Agent, A2A Protocol, Gemini 2.5 Flash Audio and Vertex AI Infrastructure</text>
 
   <!-- Node 1: Split-Panel Web Client -->
-  <g filter="url(#shadow)">
-    <rect x="50" y="120" width="240" height="500" rx="16" fill="url(#cardGrad1)" stroke="#38bdf8" stroke-width="1.5"/>
-    <rect x="50" y="120" width="240" height="50" rx="16" fill="url(#accentGrad)"/>
-    <text x="170" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Split-Panel Web Client</text>
-    <text x="170" y="195" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="600">Material Design 3 + Leaflet</text>
+  <g>
+    <rect x="50" y="120" width="240" height="500" rx="16" ry="16" fill="url(#cardGrad1)" stroke="#38bdf8" stroke-width="1.5"/>
+    <rect x="50" y="120" width="240" height="50" rx="16" ry="16" fill="url(#accentGrad)"/>
+    <text x="170" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold" font-family="sans-serif">Split-Panel Web Client</text>
+    <text x="170" y="195" text-anchor="middle" fill="#38bdf8" font-size="13" font-weight="bold" font-family="sans-serif">Material Design 3 + Leaflet</text>
 
     <!-- Sub components -->
-    <rect x="70" y="215" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🗺️ Leaflet OpenStreetMap</text>
-    <text x="170" y="253" text-anchor="middle" fill="#94a3b8" font-size="10">Interactive Route Drawing</text>
+    <rect x="70" y="215" width="200" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Leaflet OpenStreetMap</text>
+    <text x="170" y="253" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Interactive Route Drawing</text>
 
-    <rect x="70" y="275" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="298" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">💬 Rich Markdown Parser</text>
-    <text x="170" y="313" text-anchor="middle" fill="#94a3b8" font-size="10">Cards for Spots, Weather, Audio</text>
+    <rect x="70" y="275" width="200" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="298" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Rich Markdown Parser</text>
+    <text x="170" y="313" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Cards for Spots, Weather, Audio</text>
 
-    <rect x="70" y="335" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="358" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🎧 HTML5 Audio Streamer</text>
-    <text x="170" y="373" text-anchor="middle" fill="#94a3b8" font-size="10">Gemini 2.5 Flash Vocal Player</text>
+    <rect x="70" y="335" width="200" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="358" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">HTML5 Audio Streamer</text>
+    <text x="170" y="373" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Gemini 2.5 Flash Vocal Player</text>
 
-    <rect x="70" y="395" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="418" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">👥 Walk Buddy Sidebar</text>
-    <text x="170" y="433" text-anchor="middle" fill="#94a3b8" font-size="10">Parent Community Matching</text>
+    <rect x="70" y="395" width="200" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="418" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Walk Buddy Sidebar</text>
+    <text x="170" y="433" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Parent Community Matching</text>
 
-    <rect x="70" y="455" width="200" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="170" y="478" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">📸 Photo Logger</text>
-    <text x="170" y="493" text-anchor="middle" fill="#94a3b8" font-size="10">Pre-Review Image Upload</text>
+    <rect x="70" y="455" width="200" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="170" y="478" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Photo Logger</text>
+    <text x="170" y="493" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Pre-Review Image Upload</text>
   </g>
 
   <!-- Arrow 1 -> 2 -->
-  <path d="M 290 320 L 350 320" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)" fill="none" filter="url(#glow)"/>
-  <text x="320" y="310" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="600">HTTP / JSON</text>
+  <path d="M 290 320 L 350 320" stroke="#38bdf8" stroke-width="2.5" marker-end="url(#arrow)" fill="none"/>
+  <text x="320" y="310" text-anchor="middle" fill="#38bdf8" font-size="11" font-weight="bold" font-family="sans-serif">HTTP / JSON</text>
 
   <!-- Node 2: FastAPI Proxy Server -->
-  <g filter="url(#shadow)">
-    <rect x="350" y="120" width="240" height="500" rx="16" fill="url(#cardGrad1)" stroke="#4caf50" stroke-width="1.5"/>
-    <rect x="350" y="120" width="240" height="50" rx="16" fill="url(#primaryGrad)"/>
-    <text x="470" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">FastAPI A2A Proxy</text>
-    <text x="470" y="195" text-anchor="middle" fill="#4caf50" font-size="13" font-weight="600">frontend/main.py (Port 8085)</text>
+  <g>
+    <rect x="350" y="120" width="240" height="500" rx="16" ry="16" fill="url(#cardGrad1)" stroke="#4caf50" stroke-width="1.5"/>
+    <rect x="350" y="120" width="240" height="50" rx="16" ry="16" fill="url(#primaryGrad)"/>
+    <text x="470" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold" font-family="sans-serif">FastAPI A2A Proxy</text>
+    <text x="470" y="195" text-anchor="middle" fill="#4caf50" font-size="13" font-weight="bold" font-family="sans-serif">frontend/main.py (Port 8085)</text>
 
     <!-- Sub components -->
-    <rect x="370" y="230" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="470" y="255" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">⚡ /chat Endpoint</text>
-    <text x="470" y="275" text-anchor="middle" fill="#94a3b8" font-size="10">Async Artifact Streaming</text>
+    <rect x="370" y="230" width="200" height="60" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="470" y="255" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">/chat Endpoint</text>
+    <text x="470" y="275" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Async Artifact Streaming</text>
 
-    <rect x="370" y="310" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="470" y="335" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔌 A2A Client Connector</text>
-    <text x="470" y="355" text-anchor="middle" fill="#94a3b8" font-size="10">artifacts_latest Deduplication</text>
+    <rect x="370" y="310" width="200" height="60" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="470" y="335" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">A2A Client Connector</text>
+    <text x="470" y="355" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">artifacts_latest Deduplication</text>
 
-    <rect x="370" y="390" width="200" height="60" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="470" y="415" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔁 URL Rewriter</text>
-    <text x="470" y="435" text-anchor="middle" fill="#94a3b8" font-size="10">Internal Container -> GCP</text>
+    <rect x="370" y="390" width="200" height="60" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="470" y="415" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">URL Rewriter</text>
+    <text x="470" y="435" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Internal Container -&gt; GCP</text>
   </g>
 
   <!-- Arrow 2 -> 3 -->
-  <path d="M 590 320 L 650 320" stroke="#4caf50" stroke-width="2.5" marker-end="url(#arrowGreen)" fill="none" filter="url(#glow)"/>
-  <text x="620" y="310" text-anchor="middle" fill="#4caf50" font-size="11" font-weight="600">A2A Stream</text>
+  <path d="M 590 320 L 650 320" stroke="#4caf50" stroke-width="2.5" marker-end="url(#arrowGreen)" fill="none"/>
+  <text x="620" y="310" text-anchor="middle" fill="#4caf50" font-size="11" font-weight="bold" font-family="sans-serif">A2A Stream</text>
 
   <!-- Node 3: Vertex AI Agent Runtime -->
-  <g filter="url(#shadow)">
-    <rect x="650" y="120" width="250" height="500" rx="16" fill="url(#cardGrad1)" stroke="#fbbf24" stroke-width="1.5"/>
-    <rect x="650" y="120" width="250" height="50" rx="16" fill="url(#goldGrad)"/>
-    <text x="775" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="700">Agent Runtime (GCP)</text>
-    <text x="775" y="195" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">ReasoningEngine 65110439...</text>
+  <g>
+    <rect x="650" y="120" width="250" height="500" rx="16" ry="16" fill="url(#cardGrad1)" stroke="#fbbf24" stroke-width="1.5"/>
+    <rect x="650" y="120" width="250" height="50" rx="16" ry="16" fill="url(#goldGrad)"/>
+    <text x="775" y="152" text-anchor="middle" fill="#ffffff" font-size="16" font-weight="bold" font-family="sans-serif">Agent Runtime (GCP)</text>
+    <text x="775" y="195" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold" font-family="sans-serif">ReasoningEngine 65110439...</text>
 
     <!-- Tools -->
-    <rect x="670" y="215" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="239" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🌲 get_nearby_scenic_walks</text>
+    <rect x="670" y="215" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="239" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">get_nearby_scenic_walks</text>
 
-    <rect x="670" y="260" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="284" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🎙️ generate_walk_soundtrack</text>
+    <rect x="670" y="260" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="284" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">generate_walk_soundtrack</text>
 
-    <rect x="670" y="305" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="329" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">⏱️ calculate_time_budget</text>
+    <rect x="670" y="305" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="329" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">calculate_time_budget</text>
 
-    <rect x="670" y="350" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="374" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">☀️ get_weather</text>
+    <rect x="670" y="350" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="374" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">get_weather</text>
 
-    <rect x="670" y="395" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="419" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">👥 find_walk_buddy</text>
+    <rect x="670" y="395" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="419" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">find_walk_buddy</text>
 
-    <rect x="670" y="440" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="464" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">🔥 log_walk_streak</text>
+    <rect x="670" y="440" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="464" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">log_walk_streak</text>
 
-    <rect x="670" y="485" width="210" height="38" rx="6" fill="#0f172a" stroke="#334155"/>
-    <text x="775" y="509" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="600">📸 submit_place_review</text>
+    <rect x="670" y="485" width="210" height="38" rx="6" ry="6" fill="#0f172a" stroke="#334155"/>
+    <text x="775" y="509" text-anchor="middle" fill="#e2e8f0" font-size="11" font-weight="bold" font-family="sans-serif">submit_place_review</text>
   </g>
 
   <!-- Arrow 3 -> Services -->
-  <path d="M 900 320 L 960 320" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrowGold)" fill="none" filter="url(#glow)"/>
+  <path d="M 900 320 L 960 320" stroke="#fbbf24" stroke-width="2.5" marker-end="url(#arrowGold)" fill="none"/>
 
   <!-- Node 4: External Google Cloud Services -->
-  <g filter="url(#shadow)">
-    <rect x="960" y="120" width="190" height="500" rx="16" fill="url(#cardGrad1)" stroke="#a855f7" stroke-width="1.5"/>
-    <rect x="960" y="120" width="190" height="50" rx="16" fill="#9333ea"/>
-    <text x="1055" y="152" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">Google Cloud APIs</text>
-    <text x="1055" y="195" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="600">Cloud Services</text>
+  <g>
+    <rect x="960" y="120" width="190" height="500" rx="16" ry="16" fill="url(#cardGrad1)" stroke="#a855f7" stroke-width="1.5"/>
+    <rect x="960" y="120" width="190" height="50" rx="16" ry="16" fill="#9333ea"/>
+    <text x="1055" y="152" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold" font-family="sans-serif">Google Cloud APIs</text>
+    <text x="1055" y="195" text-anchor="middle" fill="#c084fc" font-size="12" font-weight="bold" font-family="sans-serif">Cloud Services</text>
 
-    <rect x="975" y="215" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🎤 Gemini 2.5 Flash TTS</text>
-    <text x="1055" y="253" text-anchor="middle" fill="#94a3b8" font-size="10">Expressive Singing Voices</text>
+    <rect x="975" y="215" width="160" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="238" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Gemini 2.5 Flash TTS</text>
+    <text x="1055" y="253" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Expressive Singing Voices</text>
 
-    <rect x="975" y="275" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="298" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🪣 Cloud Storage (GCS)</text>
-    <text x="1055" y="313" text-anchor="middle" fill="#94a3b8" font-size="10">MP3 Audio &amp; Trip Photos</text>
+    <rect x="975" y="275" width="160" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="298" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Cloud Storage (GCS)</text>
+    <text x="1055" y="313" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">MP3 Audio and Trip Photos</text>
 
-    <rect x="975" y="335" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="358" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">🔥 Cloud Firestore</text>
-    <text x="1055" y="373" text-anchor="middle" fill="#94a3b8" font-size="10">Reviews &amp; Walk Streaks</text>
+    <rect x="975" y="335" width="160" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="358" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Cloud Firestore</text>
+    <text x="1055" y="373" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Reviews and Walk Streaks</text>
 
-    <rect x="975" y="395" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="418" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">☀️ Open-Meteo API</text>
-    <text x="1055" y="433" text-anchor="middle" fill="#94a3b8" font-size="10">Weather, AQI &amp; UV Index</text>
+    <rect x="975" y="395" width="160" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="418" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Open-Meteo API</text>
+    <text x="1055" y="433" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">Weather, AQI and UV Index</text>
 
-    <rect x="975" y="455" width="160" height="50" rx="8" fill="#0f172a" stroke="#334155"/>
-    <text x="1055" y="478" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="600">✨ Gemini 2.5 Flash</text>
-    <text x="1055" y="493" text-anchor="middle" fill="#94a3b8" font-size="10">ADK LLM Reasoner</text>
+    <rect x="975" y="455" width="160" height="50" rx="8" ry="8" fill="#0f172a" stroke="#334155"/>
+    <text x="1055" y="478" text-anchor="middle" fill="#e2e8f0" font-size="12" font-weight="bold" font-family="sans-serif">Gemini 2.5 Flash</text>
+    <text x="1055" y="493" text-anchor="middle" fill="#94a3b8" font-size="10" font-family="sans-serif">ADK LLM Reasoner</text>
   </g>
 
   <!-- Footer -->
-  <text x="600" y="650" text-anchor="middle" fill="#64748b" font-size="12">Drop-Off Oasis • Built with Google Agent Development Kit (ADK) &amp; Vertex AI Agent Engine</text>
+  <text x="600" y="650" text-anchor="middle" fill="#64748b" font-size="12" font-family="sans-serif">Drop-Off Oasis - Built with Google Agent Development Kit (ADK) and Vertex AI Agent Engine</text>
 </svg>

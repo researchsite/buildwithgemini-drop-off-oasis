@@ -1,4 +1,4 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="100%" height="100%" style="background:#090d16; font-family:'Segoe UI', Roboto, Helvetica, Arial, sans-serif;">
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 720" width="1200" height="720">
   <defs>
     <linearGradient id="bg" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#090d16"/>
@@ -6,117 +6,113 @@
     </linearGradient>
 
     <linearGradient id="cardBg" x1="0%" y1="0%" x2="100%" y2="100%">
-      <stop offset="0%" stop-color="#1f2937" stop-opacity="0.9"/>
-      <stop offset="100%" stop-color="#111827" stop-opacity="0.8"/>
+      <stop offset="0%" stop-color="#1f2937"/>
+      <stop offset="100%" stop-color="#111827"/>
     </linearGradient>
-
-    <filter id="shadow" x="-10%" y="-10%" width="120%" height="120%">
-      <feDropShadow dx="0" dy="8" stdDeviation="6" flood-color="#000000" flood-opacity="0.5"/>
-    </filter>
   </defs>
 
   <rect width="1200" height="720" fill="url(#bg)"/>
 
   <!-- Header -->
-  <text x="600" y="45" text-anchor="middle" fill="#f9fafb" font-size="24" font-weight="700">DROP-OFF OASIS FILE COMPONENT DIAGRAM</text>
-  <text x="600" y="70" text-anchor="middle" fill="#9ca3af" font-size="14">Detailed Modular Blueprint &amp; Data Flow Per Codebase File</text>
+  <text x="600" y="45" text-anchor="middle" fill="#f9fafb" font-size="24" font-weight="bold" font-family="sans-serif">DROP-OFF OASIS FILE COMPONENT DIAGRAM</text>
+  <text x="600" y="70" text-anchor="middle" fill="#9ca3af" font-size="14" font-family="sans-serif">Detailed Modular Blueprint and Data Flow Per Codebase File</text>
 
   <!-- Component 1: app/agent.py -->
-  <g filter="url(#shadow)">
-    <rect x="50" y="110" width="340" height="550" rx="14" fill="url(#cardBg)" stroke="#10b981" stroke-width="1.5"/>
-    <rect x="50" y="110" width="340" height="45" rx="14" fill="#059669"/>
-    <text x="220" y="138" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">📄 app/agent.py (7 ADK Tools)</text>
+  <g>
+    <rect x="50" y="110" width="340" height="550" rx="14" ry="14" fill="url(#cardBg)" stroke="#10b981" stroke-width="1.5"/>
+    <rect x="50" y="110" width="340" height="45" rx="14" ry="14" fill="#059669"/>
+    <text x="220" y="138" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold" font-family="sans-serif">app/agent.py (7 ADK Tools)</text>
 
     <!-- Functions in agent.py -->
-    <rect x="70" y="170" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="188" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">get_nearby_scenic_walks()</text>
-    <text x="220" y="202" text-anchor="middle" fill="#9ca3af" font-size="9">Nature Spots &amp; Memory Filter (_SEEN_SPOTS)</text>
+    <rect x="70" y="170" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="188" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">get_nearby_scenic_walks()</text>
+    <text x="220" y="202" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Nature Spots and Memory Filter (_SEEN_SPOTS)</text>
 
-    <rect x="70" y="218" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="236" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">generate_walk_soundtrack()</text>
-    <text x="220" y="250" text-anchor="middle" fill="#9ca3af" font-size="9">Gemini 2.5 Flash Singing Audio + Rhythmic Beats</text>
+    <rect x="70" y="218" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="236" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">generate_walk_soundtrack()</text>
+    <text x="220" y="250" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Gemini 2.5 Flash Singing Audio + Rhythmic Beats</text>
 
-    <rect x="70" y="266" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="284" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">calculate_time_budget()</text>
-    <text x="220" y="298" text-anchor="middle" fill="#9ca3af" font-size="9">Zero-Stress Schedule (Return 5 mins early)</text>
+    <rect x="70" y="266" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="284" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">calculate_time_budget()</text>
+    <text x="220" y="298" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Zero-Stress Schedule (Return 5 mins early)</text>
 
-    <rect x="70" y="314" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="332" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">get_weather()</text>
-    <text x="220" y="346" text-anchor="middle" fill="#9ca3af" font-size="9">Live Open-Meteo Weather, AQI &amp; UV Safety</text>
+    <rect x="70" y="314" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="332" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">get_weather()</text>
+    <text x="220" y="346" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Live Open-Meteo Weather, AQI and UV Safety</text>
 
-    <rect x="70" y="362" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="380" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">find_walk_buddy()</text>
-    <text x="220" y="394" text-anchor="middle" fill="#9ca3af" font-size="9">Nearby Parent Walk Buddy Matching</text>
+    <rect x="70" y="362" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="380" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">find_walk_buddy()</text>
+    <text x="220" y="394" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Nearby Parent Walk Buddy Matching</text>
 
-    <rect x="70" y="410" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="428" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">log_walk_streak()</text>
-    <text x="220" y="442" text-anchor="middle" fill="#9ca3af" font-size="9">Cloud Firestore Wellness Streaks &amp; Badges</text>
+    <rect x="70" y="410" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="428" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">log_walk_streak()</text>
+    <text x="220" y="442" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Cloud Firestore Wellness Streaks and Badges</text>
 
-    <rect x="70" y="458" width="300" height="42" rx="6" fill="#111827" stroke="#374151"/>
-    <text x="220" y="476" text-anchor="middle" fill="#34d399" font-size="11" font-weight="600">submit_place_review()</text>
-    <text x="220" y="490" text-anchor="middle" fill="#9ca3af" font-size="9">Firestore Reviews &amp; Photo Descriptions</text>
+    <rect x="70" y="458" width="300" height="42" rx="6" ry="6" fill="#111827" stroke="#374151"/>
+    <text x="220" y="476" text-anchor="middle" fill="#34d399" font-size="11" font-weight="bold" font-family="sans-serif">submit_place_review()</text>
+    <text x="220" y="490" text-anchor="middle" fill="#9ca3af" font-size="9" font-family="sans-serif">Firestore Reviews and Photo Descriptions</text>
 
-    <rect x="70" y="510" width="300" height="130" rx="8" fill="#064e3b" stroke="#059669"/>
-    <text x="220" y="533" text-anchor="middle" fill="#a7f3d0" font-size="13" font-weight="700">root_agent = Agent(...)</text>
-    <text x="220" y="555" text-anchor="middle" fill="#ffffff" font-size="11">Model: Gemini 2.5 Flash</text>
-    <text x="220" y="575" text-anchor="middle" fill="#ffffff" font-size="11">Callback: a2ui_callback</text>
-    <text x="220" y="595" text-anchor="middle" fill="#a7f3d0" font-size="10">Deployment: Vertex AI Agent Engine</text>
+    <rect x="70" y="510" width="300" height="130" rx="8" ry="8" fill="#064e3b" stroke="#059669"/>
+    <text x="220" y="533" text-anchor="middle" fill="#a7f3d0" font-size="13" font-weight="bold" font-family="sans-serif">root_agent = Agent(...)</text>
+    <text x="220" y="555" text-anchor="middle" fill="#ffffff" font-size="11" font-family="sans-serif">Model: Gemini 2.5 Flash</text>
+    <text x="220" y="575" text-anchor="middle" fill="#ffffff" font-size="11" font-family="sans-serif">Callback: a2ui_callback</text>
+    <text x="220" y="595" text-anchor="middle" fill="#a7f3d0" font-size="10" font-family="sans-serif">Deployment: Vertex AI Agent Engine</text>
   </g>
 
   <!-- Component 2: frontend/main.py -->
-  <g filter="url(#shadow)">
-    <rect x="430" y="110" width="340" height="550" rx="14" fill="url(#cardBg)" stroke="#3b82f6" stroke-width="1.5"/>
-    <rect x="430" y="110" width="340" height="45" rx="14" fill="#2563eb"/>
-    <text x="600" y="138" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">🖥️ frontend/main.py (FastAPI Proxy)</text>
+  <g>
+    <rect x="430" y="110" width="340" height="550" rx="14" ry="14" fill="url(#cardBg)" stroke="#3b82f6" stroke-width="1.5"/>
+    <rect x="430" y="110" width="340" height="45" rx="14" ry="14" fill="#2563eb"/>
+    <text x="600" y="138" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold" font-family="sans-serif">frontend/main.py (FastAPI Proxy)</text>
 
-    <rect x="450" y="175" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="600" y="200" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="600">@app.post("/chat")</text>
-    <text x="600" y="220" text-anchor="middle" fill="#9ca3af" font-size="11">Receives browser chat requests</text>
-    <text x="600" y="237" text-anchor="middle" fill="#9ca3af" font-size="10">Streams responses &amp; A2UI cards back to UI</text>
+    <rect x="450" y="175" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="600" y="200" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="bold" font-family="sans-serif">@app.post("/chat")</text>
+    <text x="600" y="220" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">Receives browser chat requests</text>
+    <text x="600" y="237" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">Streams responses and A2UI cards back to UI</text>
 
-    <rect x="450" y="270" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="600" y="295" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="600">artifacts_latest Tracking</text>
-    <text x="600" y="315" text-anchor="middle" fill="#9ca3af" font-size="11">Maps artifact IDs to latest part state</text>
-    <text x="600" y="332" text-anchor="middle" fill="#9ca3af" font-size="10">Eliminates streaming text duplication</text>
+    <rect x="450" y="270" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="600" y="295" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="bold" font-family="sans-serif">artifacts_latest Tracking</text>
+    <text x="600" y="315" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">Maps artifact IDs to latest part state</text>
+    <text x="600" y="332" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">Eliminates streaming text duplication</text>
 
-    <rect x="450" y="365" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="600" y="390" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="600">A2A Protocol Client</text>
-    <text x="600" y="410" text-anchor="middle" fill="#9ca3af" font-size="11">google.protobuf.json_format.ParseDict</text>
-    <text x="600" y="427" text-anchor="middle" fill="#9ca3af" font-size="10">Handles StreamResponse events &amp; tasks</text>
+    <rect x="450" y="365" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="600" y="390" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="bold" font-family="sans-serif">A2A Protocol Client</text>
+    <text x="600" y="410" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">google.protobuf.json_format.ParseDict</text>
+    <text x="600" y="427" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">Handles StreamResponse events and tasks</text>
 
-    <rect x="450" y="460" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="600" y="485" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="600">URL Rewriter &amp; Server</text>
-    <text x="600" y="505" text-anchor="middle" fill="#9ca3af" font-size="11">Rewrites 0.0.0.0 container URLs to A2A_BASE</text>
-    <text x="600" y="522" text-anchor="middle" fill="#9ca3af" font-size="10">Serves web UI on Port 8085</text>
+    <rect x="450" y="460" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="600" y="485" text-anchor="middle" fill="#60a5fa" font-size="13" font-weight="bold" font-family="sans-serif">URL Rewriter and Server</text>
+    <text x="600" y="505" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">Rewrites container URLs to A2A_BASE</text>
+    <text x="600" y="522" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">Serves web UI on Port 8085</text>
   </g>
 
   <!-- Component 3: frontend/static/index.html -->
-  <g filter="url(#shadow)">
-    <rect x="810" y="110" width="340" height="550" rx="14" fill="url(#cardBg)" stroke="#f59e0b" stroke-width="1.5"/>
-    <rect x="810" y="110" width="340" height="45" rx="14" fill="#d97706"/>
-    <text x="980" y="138" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="700">🎨 frontend/static/index.html (UI)</text>
+  <g>
+    <rect x="810" y="110" width="340" height="550" rx="14" ry="14" fill="url(#cardBg)" stroke="#f59e0b" stroke-width="1.5"/>
+    <rect x="810" y="110" width="340" height="45" rx="14" ry="14" fill="#d97706"/>
+    <text x="980" y="138" text-anchor="middle" fill="#ffffff" font-size="15" font-weight="bold" font-family="sans-serif">frontend/static/index.html (UI)</text>
 
-    <rect x="830" y="175" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="980" y="200" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">Leaflet.js OpenStreetMap</text>
-    <text x="980" y="220" text-anchor="middle" fill="#9ca3af" font-size="11">plotSpotOnMap(lat, lng, spotName)</text>
-    <text x="980" y="237" text-anchor="middle" fill="#9ca3af" font-size="10">Interactive route polyline drawing</text>
+    <rect x="830" y="175" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="980" y="295" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold" font-family="sans-serif">Leaflet.js OpenStreetMap</text>
+    <text x="980" y="220" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">plotSpotOnMap(lat, lng, spotName)</text>
+    <text x="980" y="237" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">Interactive route polyline drawing</text>
 
-    <rect x="830" y="270" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="980" y="295" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">formatMarkdown(text) Card Engine</text>
-    <text x="980" y="315" text-anchor="middle" fill="#9ca3af" font-size="11">renderSpotCard(), renderWeatherCard()</text>
-    <text x="980" y="332" text-anchor="middle" fill="#9ca3af" font-size="10">renderScheduleText(), renderAudioPlayer()</text>
+    <rect x="830" y="270" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="980" y="295" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold" font-family="sans-serif">formatMarkdown(text) Card Engine</text>
+    <text x="980" y="315" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">renderSpotCard(), renderWeatherCard()</text>
+    <text x="980" y="332" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">renderScheduleText(), renderAudioPlayer()</text>
 
-    <rect x="830" y="365" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="980" y="390" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">HTML5 Audio Streamer</text>
-    <text x="980" y="410" text-anchor="middle" fill="#9ca3af" font-size="11">Plays Gemini 2.5 Flash MP3 Audio</text>
-    <text x="980" y="427" text-anchor="middle" fill="#9ca3af" font-size="10">Embedded controls &amp; download link</text>
+    <rect x="830" y="365" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="980" y="390" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold" font-family="sans-serif">HTML5 Audio Streamer</text>
+    <text x="980" y="410" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">Plays Gemini 2.5 Flash MP3 Audio</text>
+    <text x="980" y="427" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">Embedded controls and download link</text>
 
-    <rect x="830" y="460" width="300" height="75" rx="8" fill="#111827" stroke="#374151"/>
-    <text x="980" y="485" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="600">Quick Action Chips</text>
-    <text x="980" y="505" text-anchor="middle" fill="#9ca3af" font-size="11">Material Web Assist Chips</text>
-    <text x="980" y="522" text-anchor="middle" fill="#9ca3af" font-size="10">1-click presets for walk, audio, schedule</text>
+    <rect x="830" y="460" width="300" height="75" rx="8" ry="8" fill="#111827" stroke="#374151"/>
+    <text x="980" y="485" text-anchor="middle" fill="#fbbf24" font-size="13" font-weight="bold" font-family="sans-serif">Quick Action Chips</text>
+    <text x="980" y="505" text-anchor="middle" fill="#9ca3af" font-size="11" font-family="sans-serif">Material Web Assist Chips</text>
+    <text x="980" y="522" text-anchor="middle" fill="#9ca3af" font-size="10" font-family="sans-serif">1-click presets for walk, audio, schedule</text>
   </g>
 
   <!-- Footer -->
-  <text x="600" y="690" text-anchor="middle" fill="#4b5563" font-size="12">Drop-Off Oasis Architecture Blueprint • Created for Google ADK Agent Project</text>
+  <text x="600" y="690" text-anchor="middle" fill="#4b5563" font-size="12" font-family="sans-serif">Drop-Off Oasis Architecture Blueprint - Created for Google ADK Agent Project</text>
 </svg>
